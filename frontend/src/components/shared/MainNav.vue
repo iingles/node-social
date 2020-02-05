@@ -8,7 +8,7 @@
       <v-spacer></v-spacer>
       <div class="d-flex align-center">
         <router-link to="/feed"><v-icon>mdi-home</v-icon></router-link>
-        <router-link to="/feed"><v-icon>mdi-account</v-icon></router-link>
+        <router-link to="/profile"><v-icon>mdi-account</v-icon></router-link>
       </div>
 
       <v-form id="main-search" method="POST">
@@ -31,8 +31,10 @@
         <router-link to="/feed"><v-icon>mdi-account-plus</v-icon></router-link>
         <router-link to="/feed"><v-icon>mdi-help</v-icon></router-link>
         <router-link to="/feed"><v-icon>mdi-settings</v-icon></router-link>
+        <router-link to="/about"><v-icon>mdi-information</v-icon></router-link>
       </div>
       <v-spacer></v-spacer>
+      <v-icon>mdi-dots-vertical</v-icon>
     </v-app-bar>
 </template>
 
