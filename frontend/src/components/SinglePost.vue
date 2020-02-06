@@ -2,7 +2,9 @@
     <v-dialog v-model="dialog">
         <v-card>
             <v-card-title>
-                <h1>New Post</h1>
+              <h1 v-if="viewMode">View Post</h1>
+              <h1 v-if="editMode">Edit Post</h1>
+              <h1 v-if="!editMode && !viewMode">New Post</h1>
             </v-card-title>
             <v-card-text>
               <v-form>
@@ -12,7 +14,8 @@
             </v-card-text>
             <v-card-actions>
                 <v-btn @click="cancelPost()">cancel</v-btn>
-                <v-btn @click="acceptPost(postData)">accept</v-btn>
+                <v-btn v-if="!editMode" @click="editPost()">edit</v-btn>
+                <v-btn v-if="!viewMode && postData.content" @click="acceptPost(postData)">accept</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -21,7 +24,10 @@
 <script>
 export default {
   props: {
-    dialog: Boolean
+    dialog: Boolean,
+    editMode: Boolean,
+    fetchedPostData: Object,
+    viewMode: Boolean
   },
   data: () => {
     return {
@@ -32,12 +38,24 @@ export default {
       }
     }
   },
+  watch: {
+    viewMode () {
+      if (this.viewMode) {
+        this.postData = this.fetchedPostData.post
+      }
+    }
+  },
   methods: {
     cancelPost () {
+      this.postData = {}
       this.$emit('cancel')
     },
     acceptPost (postData) {
       this.$emit('accept', postData)
+    },
+    editPost () {
+      this.viewMode = !this.viewMode
+      this.editMode = true
     }
   }
 }

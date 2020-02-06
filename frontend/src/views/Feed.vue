@@ -8,32 +8,37 @@
           <v-btn @click="viewPost(post._id)">view</v-btn>
           <v-icon>mdi-dots-vertical</v-icon>
         </v-sheet>
-        {{ post }}
       </template>
       <template v-else>
         <h1>You don't have anything in your feed!</h1>
       </template>
-      <NewPost
-        :dialog="this.newPostModal"
+      {{ fetchedPostData }}
+      <SinglePost
+        :dialog="this.singlePostModal"
+        :fetchedPostData="this.fetchedPostData"
+        :editMode="this.editMode"
+        :viewMode="this.viewMode"
         @accept="savePost($event)"
-        @cancel="newPostModal=false"
+        @cancel="cancelModal()"
       />
-      <v-btn @click="newPostModal=true">new post</v-btn>
+      <v-btn @click="singlePostModal=true">new post</v-btn>
     </section>
 </template>
 
 <script>
-import NewPost from '../components/NewPost'
+import SinglePost from '../components/SinglePost'
 
 export default {
   components: {
-    NewPost
+    SinglePost
   },
   data: () => {
     return {
       posts: [],
-      post: {},
-      newPostModal: false,
+      singlePostModal: false,
+      fetchedPostData: {},
+      editMode: false,
+      viewMode: false,
       eventData: {}
     }
   },
@@ -87,15 +92,29 @@ export default {
     },
     // View a single post
     viewPost (postId) {
-      // let vm = this
+      let vm = this
       let url = `http://localhost:3000/feed/post/${postId}`
 
       fetch(url)
-        .then(result => {
+        .then(res => {
+          return res.json()
+        })
+        .then(resData => {
+          vm.fetchedPostData = resData
+          vm.singlePostModal = true
+          vm.viewMode = true
         })
         .catch(err => {
           console.log(err)
         })
+    },
+    cancelModal () {
+      // If the modal window is closed, reset everything
+      let vm = this
+      vm.singlePostModal = false
+      vm.fetchedPostData = {}
+      vm.editMode = false
+      vm.viewMode = false
     }
   }
 }
