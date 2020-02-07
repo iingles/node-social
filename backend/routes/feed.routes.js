@@ -26,8 +26,8 @@ feedRouter.put('/post/:postId', updatePost)
 
 
 /*
-    Path: /feed/deletePost
+    Path: /feed/post/:postId
 */
 
 // Delete a single post
-feedRouter.post('/deletePost/:postId,', deleteOnePost)
+feedRouter.delete('/post/:postId', deleteOnePost)

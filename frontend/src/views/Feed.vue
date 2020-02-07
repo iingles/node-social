@@ -136,13 +136,14 @@ export default {
       vm.singlePostModal = false
     },
     deletePost (postId) {
-      let method = 'POST'
-      let url = `http://localhost:3000/feed/deletePost/${postId}`
+      let method = 'DELETE'
+      let url = `http://localhost:3000/feed/post/${postId}`
 
       fetch(url, {
-        method
+        method: method
       })
         .then(res => {
+          console.log(res)
         })
         .catch(err => {
           console.log(err)

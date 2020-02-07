@@ -80,10 +80,19 @@ export const updatePost = (req, res, next) => {
 }
 
 export const deleteOnePost = (req, res, next) => {
-    const postId = req.body.postId
-    post.findByIdAndRemove(postId)
-    .then(()=>{
-        res.redirect('/feed')
+    const postId = req.params.postId
+
+    Post.findById(postId)
+    .then(post =>{
+        //check logged in user
+        console.log(postId)
+        return Post.findByIdAndRemove(postId, { useFindAndModify: false })
+    })
+    .then(result => {
+        console.log(result)
+        res.status(200).json({
+            message: 'Deleted post.'
+        })
     })
     .catch(err => {
         console.log(err)
