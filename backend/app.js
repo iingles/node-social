@@ -44,8 +44,9 @@ const fileFilter = (req, file, cb) => {
     }
 }
 
-//Route Constants
+//Route Imports
 import { feedRouter } from './routes/feed.routes'
+import { authRouter } from './routes/auth.routes'
 
 //Cross Origin middleware
 app.use(cors())
@@ -66,6 +67,23 @@ app.use(multer({
 app.use('/images', express.static(path.join(__dirname, 'images')))
 
 app.use('/feed', feedRouter)
+app.use('/auth', authRouter)
+
+//Error handling
+
+//Get the default connection
+var db = mongoose.connection;
+//Bind connection to error event (to get notification of connection errors)
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+app.use((error, req, res, next) => {
+    const status = error.statusCode || 500
+    const message = error.message
+    const data = error.data
+    
+    res.status(status).json({ message, data})
+})
 
 //Connect to Atlas/Mongo
 mongoose

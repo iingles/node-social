@@ -1,13 +1,29 @@
 import { Post } from '../models/Post'
 
 export const getAllPosts = (req, res, next) => {
+    // Pagination
+    const currentPage = req.query.page || 1
+    const perPage = 2
+    let totalItems;
+
     Post.find()
+    .countDocuments()
+    .then(count => {
+        totalItems = count
+        return Post.find()
+        .skip((currentPage - 1 ) * perPage)
+        .limit(perPage)        
+    })
     .then(posts => {
-        res.status(200).json({
+        res
+        .status(200)
+        .json({
             message: 'Fetched Posts Successfully',
-            posts:posts
+            posts,
+            totalItems
         })
-    }).catch(err => {
+    })
+    .catch(err => {
         console.log(err)
     })
 }
@@ -85,11 +101,9 @@ export const deleteOnePost = (req, res, next) => {
     Post.findById(postId)
     .then(post =>{
         //check logged in user
-        console.log(postId)
         return Post.findByIdAndRemove(postId, { useFindAndModify: false })
     })
     .then(result => {
-        console.log(result)
         res.status(200).json({
             message: 'Deleted post.'
         })

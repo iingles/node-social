@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const Schema = new mongoose.Schema
+const Schema = mongoose.Schema
 
 const userSchema = new Schema({
     firstName: {
@@ -18,7 +18,17 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    status: {
+        type: String,
+        required: true
+    },
+    posts: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Post' 
+        }
+    ]
 })
 
 export const User = mongoose.model('User', userSchema)

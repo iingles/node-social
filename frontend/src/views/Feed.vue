@@ -47,8 +47,9 @@ export default {
   },
   created () {
     let vm = this
+    let page = 1
     // For now, grab all posts in database
-    fetch('http://localhost:3000/feed/posts')
+    fetch(`http://localhost:3000/feed/posts/?page=${page}`)
       .then(res => {
         return res.json()
       })
