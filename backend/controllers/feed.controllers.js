@@ -15,12 +15,10 @@ export const getAllPosts = (req, res, next) => {
 export const savePost = (req, res, next) => {
     const title = req.body.title
     const content = req.body.content
-    const imgURL = req.file.path
 
     const post = new Post({
         title: title,
         content: content,
-        imgURL: imgURL,
         creator: { name: 'Isaac' }
     })
 
@@ -55,6 +53,29 @@ export const getOnePost = (req, res, next) => {
     })
     .catch(err => {
         console.log(err)
+    })
+}
+
+export const updatePost = (req, res, next) => {
+    const postId = req.params.postId
+    const title = req.body.title
+    const content = req.body.content
+
+    Post.findById(postId)
+    .then(post => {
+        post.title = title
+        post.content = content
+        return post.save()
+    })
+    .then(result => {
+        res.status(200)
+        .json({
+            message: 'Post updated.',
+            post: result
+        })
+    })
+    .catch(err => {
+
     })
 }
 

@@ -13,14 +13,14 @@
       <template v-else>
         <h1>You don't have anything in your feed!</h1>
       </template>
-      {{ fetchedPostData }}
       <SinglePost
         :dialog="this.singlePostModal"
         :fetchedPostData="this.fetchedPostData"
         :editMode="this.editMode"
         :viewMode="this.viewMode"
         @accept="savePost($event)"
-        @edit="editPost()"
+        @edit="editMode=true; viewMode=false"
+        @editedPost="updatePost($event)"
         @cancel="cancelModal()"
       />
       <v-btn @click="singlePostModal=true">new post</v-btn>
@@ -36,6 +36,7 @@ export default {
   },
   data: () => {
     return {
+      storedData: {},
       posts: [],
       singlePostModal: false,
       fetchedPostData: {},
@@ -110,9 +111,29 @@ export default {
           console.log(err)
         })
     },
-    editPost () {
+    updatePost (postData) {
+      let url = `http://localhost:3000/feed/post/${postData._id}`
+      let method = 'PUT'
       let vm = this
-      vm.editMode = true
+
+      fetch(url, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          title: postData.title,
+          content: postData.content,
+          creator: postData.creator
+        })
+      })
+        .then(res => {
+          return res.json()
+        })
+        .catch(err => {
+          console.log(err + 'failure')
+        })
+      vm.singlePostModal = false
     },
     deletePost (postId) {
       let method = 'POST'
