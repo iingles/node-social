@@ -8,7 +8,6 @@ export const feedRouter = Router()
 */
 
 feedRouter.get('/posts', getAllPosts)
-
 feedRouter.post('/posts', savePost)
 
 
