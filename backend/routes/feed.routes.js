@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getAllPosts, savePost, getOnePost } from '../controllers/feed.controllers'
+import { getAllPosts, savePost, getOnePost, deleteOnePost } from '../controllers/feed.controllers'
 
 export const feedRouter = Router()
 
@@ -17,3 +17,9 @@ feedRouter.post('/posts', savePost)
 */
 
 feedRouter.get('/post/:postId', getOnePost)
+
+/*
+    Path: /feed/deletePost
+*/
+
+feedRouter.post('/deletePost/:postId,', deleteOnePost)

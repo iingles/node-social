@@ -6,6 +6,7 @@
           <h2>{{ post.creator.name }}</h2>
           <p>{{ post.content }}</p>
           <v-btn @click="viewPost(post._id)">view</v-btn>
+          <v-btn @click="deletePost(post._id)">delete</v-btn>
           <v-icon>mdi-dots-vertical</v-icon>
         </v-sheet>
       </template>
@@ -19,6 +20,7 @@
         :editMode="this.editMode"
         :viewMode="this.viewMode"
         @accept="savePost($event)"
+        @edit="editPost()"
         @cancel="cancelModal()"
       />
       <v-btn @click="singlePostModal=true">new post</v-btn>
@@ -63,7 +65,7 @@ export default {
       let url = 'http://localhost:3000/feed/posts'
       let method = 'POST'
 
-      vm.dialog = false
+      vm.singlePostModal = false
 
       fetch(url, {
         method,
@@ -108,13 +110,30 @@ export default {
           console.log(err)
         })
     },
+    editPost () {
+      let vm = this
+      vm.editMode = true
+    },
+    deletePost (postId) {
+      let method = 'POST'
+      let url = `http://localhost:3000/feed/deletePost/${postId}`
+
+      fetch(url, {
+        method
+      })
+        .then(res => {
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     cancelModal () {
       // If the modal window is closed, reset everything
       let vm = this
       vm.singlePostModal = false
-      vm.fetchedPostData = {}
       vm.editMode = false
       vm.viewMode = false
+      vm.fetchedPostData = {}
     }
   }
 }

@@ -15,11 +15,12 @@ export const getAllPosts = (req, res, next) => {
 export const savePost = (req, res, next) => {
     const title = req.body.title
     const content = req.body.content
+    const imgURL = req.file.path
 
     const post = new Post({
         title: title,
         content: content,
-        imgURL: '',
+        imgURL: imgURL,
         creator: { name: 'Isaac' }
     })
 
@@ -51,6 +52,17 @@ export const getOnePost = (req, res, next) => {
             message: 'Post Fetched',
             post: post
         })
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
+
+export const deleteOnePost = (req, res, next) => {
+    const postId = req.body.postId
+    post.findByIdAndRemove(postId)
+    .then(()=>{
+        res.redirect('/feed')
     })
     .catch(err => {
         console.log(err)

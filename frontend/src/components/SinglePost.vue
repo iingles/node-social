@@ -2,7 +2,7 @@
     <v-dialog v-model="dialog">
         <v-card>
             <v-card-title>
-              <h1 v-if="viewMode">View Post</h1>
+              <h1 v-if="viewMode && !editMode">View Post</h1>
               <h1 v-if="editMode">Edit Post</h1>
               <h1 v-if="!editMode && !viewMode">New Post</h1>
             </v-card-title>
@@ -15,7 +15,7 @@
             <v-card-actions>
                 <v-btn @click="cancelPost()">cancel</v-btn>
                 <v-btn v-if="!editMode" @click="editPost()">edit</v-btn>
-                <v-btn v-if="!viewMode && postData.content" @click="acceptPost(postData)">accept</v-btn>
+                <v-btn v-if="!viewMode && postData.content || editMode && postData.content" @click="acceptPost(postData)">accept</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -54,8 +54,7 @@ export default {
       this.$emit('accept', postData)
     },
     editPost () {
-      this.viewMode = !this.viewMode
-      this.editMode = true
+      this.$emit('edit')
     }
   }
 }
