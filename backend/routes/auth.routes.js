@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { body } from 'express-validator'
 
 import { User } from '../models/User'
-import { putSignUp } from '../controllers/auth.controllers'
+import { putSignUp, postLogin } from '../controllers/auth.controllers'
 
 export const authRouter = new Router();
 
@@ -31,3 +31,5 @@ authRouter.put('/signup', [
     body('firstName').trim().not().isEmpty(),
     body('lastName').trim().not().isEmpty()
 ], putSignUp)
+
+authRouter.post('/login', postLogin)
