@@ -13,8 +13,9 @@
               </v-form>
             </v-card-text>
             <v-card-actions>
+                 view: {{ viewMode }} <br> edit: {{ editMode }}
                 <v-btn @click="cancelPost()">cancel</v-btn>
-                <v-btn v-if="!editMode" @click="()=>{this.$emit('edit')}">edit</v-btn>
+                <v-btn v-if="!editMode && !viewMode" @click="()=>{this.$emit('edit')}">edit</v-btn>
                 <v-btn v-if="!viewMode && postData.content || editMode && postData.content" @click="acceptPost(postData)">accept</v-btn>
             </v-card-actions>
         </v-card>
@@ -52,7 +53,6 @@ export default {
     },
     acceptPost (postData) {
       let vm = this
-
       // If we are in editing mode, send the request to the "put" route
       // Else, send the request to the regular save post route
       if (vm.editMode) {
@@ -60,6 +60,7 @@ export default {
       } else {
         vm.$emit('accept', postData)
       }
+      this.postData = {}
     }
   }
 }

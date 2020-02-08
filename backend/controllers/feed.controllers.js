@@ -3,7 +3,7 @@ import { Post } from '../models/Post'
 export const getAllPosts = (req, res, next) => {
     // Pagination
     const currentPage = req.query.page || 1
-    const perPage = 2
+    const perPage = 10
     let totalItems;
 
     Post.find()

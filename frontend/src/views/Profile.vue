@@ -1,5 +1,20 @@
 <template>
     <v-content>
-        <h1>Profile Page</h1>
+        <header class="profile-header">
+            <div class="profile-image">
+                <v-img></v-img>
+            </div>
+        </header>
+        <section class="profile-bio"></section>
+        <section class="profile-feed"></section>
     </v-content>
 </template>
+
+<script>
+export default {
+}
+</script>
+
+<style scoped>
+
+</style>

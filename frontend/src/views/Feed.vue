@@ -1,19 +1,41 @@
 <template>
-    <section>
-      <template v-if="this.posts.length > 0">
-        <v-sheet class="post" v-for="post in posts" :key="post._id">
-          <h1>{{ post.title }}</h1>
-          <h2>{{ post.creator.name }}</h2>
-          <p>{{ post.content }}</p>
-          <v-btn @click="viewPost(post._id)">view</v-btn>
-          <v-btn @click="deletePost(post._id)">delete</v-btn>
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-sheet>
-      </template>
-      <template v-else>
-        <h1>You don't have anything in your feed!</h1>
-      </template>
-      <SinglePost
+  <div>
+    <v-content>
+      <v-row>
+        <v-col class="sm-12 md-3 lg-3">
+          <section>
+            <!-- Left Column -->
+            <h1>Recent Media</h1>
+            <div v-for="post in posts" :key="post._id">
+              {{ post._id }}
+            </div>
+          </section>
+        </v-col>
+        <v-col class="sm-12 md-6 lg-6">
+          <!-- Middle column -->
+          <v-btn @click="singlePostModal=true">new post</v-btn>
+          <template v-if="posts.length > 0">
+            <v-sheet class="post" v-for="post in posts" :key="post._id">
+              <SinglePost
+                :post="post"
+                @view="viewPost($event)"
+                @delete="deletePost($event)"
+              />
+            </v-sheet>
+          </template>
+          <template v-else>
+            <h1>You don't have anything in your feed.</h1>
+          </template>
+        </v-col>
+        <v-col class="sm-12 md-3 lg-3">
+          <section>
+          <!-- Right Column -->
+          <h1>Recommended</h1>
+          </section>
+        </v-col>
+      </v-row>
+    </v-content>
+      <PostModal
         :dialog="this.singlePostModal"
         :fetchedPostData="this.fetchedPostData"
         :editMode="this.editMode"
@@ -23,20 +45,20 @@
         @editedPost="updatePost($event)"
         @cancel="cancelModal()"
       />
-      <v-btn @click="singlePostModal=true">new post</v-btn>
-    </section>
+    </div>
 </template>
 
 <script>
-import SinglePost from '../components/SinglePost'
+import PostModal from '../components/posts/PostModal'
+import SinglePost from '../components/posts/SinglePost'
 
 export default {
   components: {
-    SinglePost
+    SinglePost,
+    PostModal
   },
   data: () => {
     return {
-      storedData: {},
       posts: [],
       singlePostModal: false,
       fetchedPostData: {},
@@ -66,7 +88,6 @@ export default {
       let vm = this
       let url = 'http://localhost:3000/feed/posts'
       let method = 'POST'
-
       vm.singlePostModal = false
 
       fetch(url, {
@@ -145,6 +166,7 @@ export default {
       })
         .then(res => {
           console.log(res)
+          location.reload()
         })
         .catch(err => {
           console.log(err)
