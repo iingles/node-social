@@ -1,5 +1,6 @@
 import { validationResult } from 'express-validator'
 import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 
 import { User } from '../models/User'
 
@@ -75,8 +76,21 @@ export const postLogin = (req, res, next) => {
                 throw error
             }
             //If we make it to here, we know the user entered
-            //a correct password
+            //a correct password, so issue a token
 
+            const token = jwt.sign({
+                email: loadedUser.email,
+                userId: loadedUser._id.toString()
+             }, 
+             'somesupersecretstringcheckoutthedocsfordoingthisright',
+            {
+                expiresIn: '1h'
+            })
+            // Send a response with the token
+            res.status(200).json({
+                token: token,
+                userId: loadedUser._id.toString()
+            })
         })
         .catch(err => {
             if(!err.statusCode) {
