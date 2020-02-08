@@ -1,19 +1,22 @@
 <template>
   <v-app>
-      <MainNav/>
-      <router-view />
+      <!-- <MainNav/>
+      <router-view /> -->
+      <Signup />
   </v-app>
 </template>
 
 <script>
-import MainNav from './components/shared/MainNav'
+// import MainNav from './components/shared/MainNav'
+import Signup from './views/Signup'
 
 export default {
 
   name: 'App',
 
   components: {
-    MainNav
+    // MainNav
+    Signup
   },
 
   data: () => ({

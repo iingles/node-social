@@ -9,7 +9,7 @@
             <div v-for="post in posts" :key="post._id">
               {{ post._id }}
             </div>
-          </section>
+           </section>
         </v-col>
         <v-col class="sm-12 md-6 lg-6">
           <!-- Middle column -->
