@@ -4,11 +4,11 @@
             <v-col cols="12">
                 <v-card class="pa-10">
                     <v-card-title>Welcome, please login</v-card-title>
-                    <v-form @submit.prevent="onSubmit" @keyup.enter="onSubmit" ref="loginForm">
+                    <v-form @submit.prevent="loginHandler" @keyup.enter="loginHandler" ref="loginForm">
                         <v-text-field
-                            v-model.lazy="userName"
-                            label="Username"
-                            :rules="userNameRules"
+                            v-model.lazy="email"
+                            label="Email"
+                            :rules="emailRules"
                         >
                         </v-text-field>
                         <v-text-field
@@ -19,7 +19,7 @@
                         >
                         </v-text-field>
                         <v-btn
-                        @click="onSubmit"
+                        @click="loginHandler"
                         type="submit"
                         rounded
                         color="blue"
@@ -27,7 +27,6 @@
                         >Submit</v-btn>
                     </v-form>
                 </v-card>
-                <router-link to="/signup">Sign Up</router-link>
                 <transition name="fade" mode="out-in">
                     <template v-if="hasErrors">
                         <p :style="'color:red'">Please correct the errors before submitting.</p>
@@ -44,12 +43,11 @@ export default {
   data: () => {
     return {
       hasErrors: false,
-      userName: '',
+      email: '',
       password: '',
-      userNameRules: [
-        v => !!v || 'Username is required.',
-        v => v.length <= 16 || 'Username cannot exceed 15 characters.',
-        v => /^[a-zA-Z\-_]*$/.test(v) || 'Username can only contain letters, dashes, or underscores.'
+      emailRules: [
+        // v => /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/ || 'Please enter a valid email address.',
+        v => !!v || 'email is required'
       ],
       passwordRules: [
         v => !!v || 'Password is required',
@@ -60,21 +58,38 @@ export default {
     }
   },
   methods: {
-    onSubmit () {
+    loginHandler () {
       let vm = this
 
-      if (this.$refs.loginForm.validate()) {
-        vm.hasErrors = false
-        // const formData = {
-        //   userName: this.userName,
-        //   password: this.password
-        // }
-        this.$store.dispatch('userLoggedIn', {
-          userName: this.userName,
-          password: this.password,
-          loggedIn: true
+      event.preventDefault()
+      // Set the local login state to true here
+
+      fetch('http://localhost:3000/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: vm.email,
+          password: vm.password
         })
-      } else { vm.hasErrors = true }
+      })
+        .then(res => {
+          if (res.status === 422) {
+            throw new Error('Validation failed.')
+          }
+          if (res.status !== 200 && res.status !== 201) {
+            console.log('Error!')
+            throw new Error('Could not authenticate you!')
+          }
+          return res.json()
+        })
+        .then(resData => {
+          console.log(resData)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 }

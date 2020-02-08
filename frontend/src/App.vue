@@ -1,14 +1,16 @@
 <template>
   <v-app>
-      <!-- <MainNav/>
-      <router-view /> -->
-      <Signup />
+      <!-- <MainNav/> -->
+      <router-link to="/login">Login</router-link>
+      <router-link to="/signup">Sign Up</router-link>
+      <v-content>
+        <router-view></router-view>
+      </v-content>
   </v-app>
 </template>
 
 <script>
 // import MainNav from './components/shared/MainNav'
-import Signup from './views/Signup'
 
 export default {
 
@@ -16,7 +18,6 @@ export default {
 
   components: {
     // MainNav
-    Signup
   },
 
   data: () => ({
