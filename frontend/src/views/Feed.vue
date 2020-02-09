@@ -6,15 +6,20 @@
           <section>
             <!-- Left Column -->
             <h1>Recent Media</h1>
-            <div v-for="post in posts" :key="post._id">
-              {{ post._id }}
-            </div>
+            <template v-if="posts">
+              <div v-for="post in posts" :key="post._id">
+                {{ post._id }}
+              </div>
+            </template>
+            <template v-else>
+              <h1>Nothing to show.</h1>
+            </template>
            </section>
         </v-col>
         <v-col class="sm-12 md-6 lg-6">
           <!-- Middle column -->
           <v-btn @click="singlePostModal=true">new post</v-btn>
-          <template v-if="posts.length > 0">
+          <template v-if="posts">
             <v-sheet class="post" v-for="post in posts" :key="post._id">
               <SinglePost
                 :post="post"
@@ -53,6 +58,9 @@ import PostModal from '../components/posts/PostModal'
 import SinglePost from '../components/posts/SinglePost'
 
 export default {
+  props: {
+    token: String
+  },
   components: {
     SinglePost,
     PostModal
@@ -68,14 +76,22 @@ export default {
     }
   },
   created () {
+    console.log(this.token)
     let vm = this
     let page = 1
     // For now, grab all posts in database
-    fetch(`http://localhost:3000/feed/posts/?page=${page}`)
+    fetch(`http://localhost:3000/feed/posts/?page=${page}`, {
+      headers: {
+        Authorization: `Bearer ${vm.token}`
+      }
+    })
       .then(res => {
         return res.json()
       })
       .then(resData => {
+        if (resData.message === 'Not Authenticated') {
+          return resData.message
+        }
         vm.posts = resData.posts
       })
       .catch(err => {

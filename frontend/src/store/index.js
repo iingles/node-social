@@ -1,28 +1,39 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import * as user from './modules/user.store.js'
-
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    userState: user.state.user
+    user: {
+      email: '',
+      firstName: '',
+      lastName: '',
+      token: '',
+      auth: false,
+      status: ''
+    }
   },
   getters: {
-    userLogin: user.getters.userLoggedIn,
-    userFirstName: user.getters.userName
+    getAuth (state) {
+      return state.user.auth
+    }
   },
   mutations: {
-    changeLogin: user.mutations.changeLoggedInStatus,
-    storeUser: user.mutations.storeUser
+    userAuth (state) {
+      state.user.auth = state
+      return state.user.auth
+    },
+    storeToken (state) {
+      state.user.token = localStorage.getItem.token
+    }
   },
   actions: {
-    userLogin: user.actions.userLoggedIn,
-    userLogout: user.actions.userLoggedOut
-
-  },
-  modules: {
-    user
+    authUser ({ commit }, auth) {
+      commit('userAuth', auth)
+    },
+    passToken ({ commit }, token) {
+      commit('storeToken', token)
+    }
   }
 })

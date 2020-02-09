@@ -1,12 +1,19 @@
 <template>
     <v-content>
-        <header class="profile-header">
-            <div class="profile-image">
-                <v-img></v-img>
-            </div>
-        </header>
-        <section class="profile-bio"></section>
-        <section class="profile-feed"></section>
+        <v-row>
+            <v-col class="sm-12 lg-3">
+                <!-- Left column -->
+                Left Column
+            </v-col>
+            <v-col class="sm-12 lg-3">
+                <!-- Middle column -->
+                Middle Column
+            </v-col>
+            <v-col class="sm-12 lg-3">
+                <!-- Right column -->
+                Right Column
+            </v-col>
+        </v-row>
     </v-content>
 </template>
 

@@ -44,6 +44,7 @@
                 >Submit</v-btn>
             </v-form>
         </v-card>
+        <p>Have an account? <router-link to="/login">Login Here.</router-link></p>
     </v-content>
 </template>
 
@@ -97,6 +98,9 @@ export default {
             throw new Error(
               "Validation failed.  Make sure that email address isn't used yet!"
             )
+          } else {
+            // if successful, redirect to login screen
+            this.$router.push('/login')
           }
         })
     }

@@ -27,6 +27,7 @@
                         >Submit</v-btn>
                     </v-form>
                 </v-card>
+                <p>Don't have an account? <router-link to="/signup">Sign Up</router-link></p>
                 <transition name="fade" mode="out-in">
                     <template v-if="hasErrors">
                         <p :style="'color:red'">Please correct the errors before submitting.</p>
@@ -86,6 +87,10 @@ export default {
         })
         .then(resData => {
           console.log(resData)
+          localStorage.setItem('token', resData.token)
+          localStorage.setItem('userId', resData.userId)
+          // If successful, redirect to feed
+          this.$router.push('/feed')
         })
         .catch(err => {
           console.log(err)

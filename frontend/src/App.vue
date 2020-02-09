@@ -1,11 +1,11 @@
 <template>
   <v-app>
-      <!-- <MainNav/> -->
-      <router-link to="/login">Login</router-link>
-      <router-link to="/signup">Sign Up</router-link>
-      <v-content>
-        <router-view></router-view>
-      </v-content>
+    <!-- <MainNav/> -->
+    <v-content>
+      <router-view
+      :token="authToken"
+      ></router-view>
+    </v-content>
   </v-app>
 </template>
 
@@ -21,7 +21,7 @@ export default {
   },
 
   data: () => ({
-    //
+    authToken: localStorage.getItem('token')
   })
 }
 </script>

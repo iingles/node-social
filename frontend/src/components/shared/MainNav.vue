@@ -32,11 +32,25 @@
         <router-link to="/feed"><v-icon>mdi-help</v-icon></router-link>
         <router-link to="/feed"><v-icon>mdi-settings</v-icon></router-link>
         <router-link to="/about"><v-icon>mdi-information</v-icon></router-link>
+        <v-btn>Logout</v-btn>
       </div>
       <v-spacer></v-spacer>
       <v-icon>mdi-dots-vertical</v-icon>
     </v-app-bar>
 </template>
+
+<script>
+export default {
+  // methods: {
+  //   logout: function () {
+  //     this.$store.dispatch('AUTH_LOGOUT')
+  //       .then(() => {
+  //         this.$router.push('/login')
+  //       })
+  //   }
+  // }
+}
+</script>
 
 <style scoped>
  .main-nav a {

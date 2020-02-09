@@ -11,50 +11,53 @@ const routes = [
   {
     path: '/',
     name: 'home',
+    meta: {
+      auth: true
+    },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "feed" */ '../views/Feed.vue')
-    // meta: {
-    //   requiresAuth: true
-    // }
   },
   {
     path: '/about',
     name: 'about',
+    meta: {
+      auth: true
+    },
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
     path: '/feed',
     name: 'feed',
+    meta: {
+      auth: true
+    },
     component: () => import(/* webpackChunkName: "feed" */ '../views/Feed.vue')
-    // meta: {
-    //   requiresAuth: true
-    // }
   },
   {
     path: '/profile',
     name: 'profile',
+    meta: {
+      auth: true
+    },
     component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue')
-    // meta: {
-    //   requiresAuth: true
-    // }
   },
   {
     path: '/signup',
     name: 'signup',
+    meta: {
+      auth: false
+    },
     component: Signup
-    // meta: {
-    //   guest: true
-    // }
   },
   {
     path: '/login',
     name: 'login',
+    meta: {
+      auth: false
+    },
     component: Login
-    // meta: {
-    //   guest: true
-    // }
   },
   {
     path: '*',
@@ -69,15 +72,28 @@ const router = new VueRouter({
   routes
 })
 
-/*
-  User Authorization
-  Check each route's metadata to make sure that the user
-  is authorized to view it.
-*/
+// if (localStorage.getItem('token')) {
+//   const authToken = JSON.parse(localStorage.getItem('token'))
+//   this.$store.dispatch('authUser', true)
+//   this.$store.dispatch('passToken', authToken)
+// } else {
+//   this.$store.dispatch('authUser', false)
+// }
 
 // router.beforeEach((to, from, next) => {
-//   if (to.matched.some(record => record.meta.requiresAuth)) {
-//   }
+//   // Check to see if the route requires the user to be authenticated
+//   if (to.matched.some(route => route.meta.auth)) {
+//     // If there is no token, redirect to login
+//     if (localStorage.getItem('jwt') == null) {
+//       next({
+//         path: '/login',
+//         params: { nextUrl: to.fullPath }
+//       })
+//     } else {
+//       // let user = JSON.parse(localStorage.getItem('user'))
+//       router.push('/feed')
+//     }
+//   } else { next() }
 // })
 
 export default router

@@ -1,4 +1,10 @@
 import { Router } from 'express'
+import { body } from 'express-validator'
+
+//Token authorization
+import { isAuth } from '../middleware/is-auth'
+
+// Controllers
 import { getAllPosts, savePost, getOnePost, updatePost, deleteOnePost } from '../controllers/feed.controllers'
 
 export const feedRouter = Router()
@@ -8,10 +14,22 @@ export const feedRouter = Router()
 */
 
 // Get all posts
-feedRouter.get('/posts', getAllPosts)
+feedRouter.get('/posts', isAuth, getAllPosts)
 
 // Save a new post
-feedRouter.post('/posts', savePost)
+feedRouter.post('/posts', 
+isAuth,
+[
+    // Validation
+    
+    body('title')
+        .trim()
+        .isLength({ min: 5 }),
+    body('content')
+        .trim()
+        .isLength({ min: 5 })
+
+], savePost)
 
 
 /*
@@ -19,10 +37,10 @@ feedRouter.post('/posts', savePost)
 */
 
 // For a single post
-feedRouter.get('/post/:postId', getOnePost)
+feedRouter.get('/post/:postId', isAuth, getOnePost)
 
 //Updating a post
-feedRouter.put('/post/:postId', updatePost)
+feedRouter.put('/post/:postId', isAuth, updatePost)
 
 
 /*
@@ -30,4 +48,4 @@ feedRouter.put('/post/:postId', updatePost)
 */
 
 // Delete a single post
-feedRouter.delete('/post/:postId', deleteOnePost)
+feedRouter.delete('/post/:postId', isAuth, deleteOnePost)
