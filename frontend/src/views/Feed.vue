@@ -76,9 +76,9 @@ export default {
     }
   },
   created () {
-    console.log(this.token)
     let vm = this
     let page = 1
+ 
     // For now, grab all posts in database
     fetch(`http://localhost:3000/feed/posts/?page=${page}`, {
       headers: {
@@ -109,7 +109,8 @@ export default {
       fetch(url, {
         method,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${vm.token}`
         },
         body: JSON.stringify({
           title: postData.title,
@@ -136,7 +137,11 @@ export default {
       let vm = this
       let url = `http://localhost:3000/feed/post/${postId}`
 
-      fetch(url)
+      fetch(url, {
+        headers: {
+          Authorization: `Bearer ${vm.token}`
+        }
+      })
         .then(res => {
           return res.json()
         })
@@ -157,7 +162,8 @@ export default {
       fetch(url, {
         method: method,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${vm.token}`
         },
         body: JSON.stringify({
           title: postData.title,
@@ -174,11 +180,15 @@ export default {
       vm.singlePostModal = false
     },
     deletePost (postId) {
+      let vm = this
       let method = 'DELETE'
       let url = `http://localhost:3000/feed/post/${postId}`
 
       fetch(url, {
-        method: method
+        method: method,
+        headers: {
+          Authorization: `Bearer ${vm.token}`
+        }
       })
         .then(res => {
           console.log(res)

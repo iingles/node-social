@@ -13,9 +13,8 @@
               </v-form>
             </v-card-text>
             <v-card-actions>
-                 view: {{ viewMode }} <br> edit: {{ editMode }}
                 <v-btn @click="cancelPost()">cancel</v-btn>
-                <v-btn v-if="!editMode && !viewMode" @click="()=>{this.$emit('edit')}">edit</v-btn>
+                <v-btn v-if="!editMode && viewMode" @click="()=>{this.$emit('edit')}">edit</v-btn>
                 <v-btn v-if="!viewMode && postData.content || editMode && postData.content" @click="acceptPost(postData)">accept</v-btn>
             </v-card-actions>
         </v-card>

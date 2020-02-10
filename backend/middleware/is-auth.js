@@ -19,6 +19,7 @@ export const isAuth = (req, res, next) => {
         decodedToken = jwt.verify(token, 'somesupersecretstringcheckoutthedocsfordoingthisright')
     } catch (err) {
         err.statusCode = 500
+        console.log(err)
         throw err
     }
     if (!decodedToken) {

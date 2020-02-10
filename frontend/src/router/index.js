@@ -30,10 +30,10 @@ const routes = [
   {
     path: '/feed',
     name: 'feed',
+    component: () => import(/* webpackChunkName: "feed" */ '../views/Feed.vue'),
     meta: {
       auth: true
-    },
-    component: () => import(/* webpackChunkName: "feed" */ '../views/Feed.vue')
+    }
   },
   {
     path: '/profile',
@@ -72,28 +72,19 @@ const router = new VueRouter({
   routes
 })
 
-// if (localStorage.getItem('token')) {
-//   const authToken = JSON.parse(localStorage.getItem('token'))
-//   this.$store.dispatch('authUser', true)
-//   this.$store.dispatch('passToken', authToken)
-// } else {
-//   this.$store.dispatch('authUser', false)
-// }
-
-// router.beforeEach((to, from, next) => {
-//   // Check to see if the route requires the user to be authenticated
-//   if (to.matched.some(route => route.meta.auth)) {
-//     // If there is no token, redirect to login
-//     if (localStorage.getItem('jwt') == null) {
-//       next({
-//         path: '/login',
-//         params: { nextUrl: to.fullPath }
-//       })
-//     } else {
-//       // let user = JSON.parse(localStorage.getItem('user'))
-//       router.push('/feed')
-//     }
-//   } else { next() }
-// })
+router.beforeEach((to, from, next) => {
+  // Check to see if the route requires the user to be authenticated
+  if (to.matched.some(route => route.meta.auth)) {
+    // If there is no token, redirect to login
+    if (localStorage.getItem('token') == null) {
+      next({
+        path: '/login',
+        params: { nextUrl: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  } else { next() }
+})
 
 export default router

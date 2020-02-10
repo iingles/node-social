@@ -86,11 +86,10 @@ export default {
           return res.json()
         })
         .then(resData => {
-          console.log(resData)
           localStorage.setItem('token', resData.token)
           localStorage.setItem('userId', resData.userId)
           // If successful, redirect to feed
-          this.$router.push('/feed')
+          location.replace('/feed')
         })
         .catch(err => {
           console.log(err)

@@ -87,7 +87,7 @@ export const postLogin = (req, res, next) => {
                 expiresIn: '1h'
             })
             // Send a response with the token
-            res.status(200).json({
+                res.status(200).json({
                 token: token,
                 userId: loadedUser._id.toString()
             })
