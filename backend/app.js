@@ -47,6 +47,7 @@ const fileFilter = (req, file, cb) => {
 //Route Imports
 import { feedRouter } from './routes/feed.routes'
 import { authRouter } from './routes/auth.routes'
+import { userRouter } from './routes/user.routes'
 
 //Cross Origin middleware
 app.use(cors())
@@ -68,6 +69,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')))
 
 app.use('/feed', feedRouter)
 app.use('/auth', authRouter)
+app.use('/user', userRouter)
 
 //Error handling
 

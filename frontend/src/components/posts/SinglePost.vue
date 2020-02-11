@@ -1,11 +1,10 @@
 <template>
     <div>
         <h1>{{ post.title }}</h1>
-        <h2>{{ post.creator.name }}</h2>
+        <p>{{ post.creator }}</p>
         <p>{{ post.content }}</p>
-        <v-btn @click="()=>{this.$emit('view', post._id)}">view</v-btn>
-        <v-btn @click="()=>{this.$emit('delete', post._id)}">delete</v-btn>
-        <v-icon>mdi-dots-vertical</v-icon>
+        <v-btn icon @click="()=>{this.$emit('view', post._id)}"><v-icon>mdi-card-search-outline</v-icon>view</v-btn>
+        <v-btn icon @click="()=>{this.$emit('delete', post._id)}"><v-icon>mdi-pencil-outline</v-icon>edit</v-btn>
     </div>
 </template>
 

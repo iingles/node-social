@@ -11,6 +11,13 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    birthday: {
+        type: String,
+    },
+    phone: {
+        type: String,
+        default: '000-000-0000'
+    },
     email: {
         type: String,
         required: true
@@ -21,9 +28,35 @@ const userSchema = new Schema({
     },
     status: {
         type: String,
-        default: 'I am new'
+        default: 'Hi everyone!',
+    },
+    bio: {
+        type: String,
+        default: 'I haven\'t filled this out yet',
+    },
+    following: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
+    followers:  [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
+    profileImageUrl: {
+        type: String,
+        default: 'http://localhost:3000/images/user-images/default.png'
     },
     posts: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Post' 
+        }
+    ],
+    likes: [
         {
             type: Schema.Types.ObjectId,
             ref: 'Post' 

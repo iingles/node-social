@@ -1,6 +1,9 @@
 <template>
     <v-app-bar
       app
+      fixed
+      dense
+      collapse-on-scroll
       color="primary"
       dark
       class="main-nav"
@@ -27,20 +30,32 @@
 
       <div class="d-flex justify-space-between align-center">
         <router-link to="/feed"><v-icon>mdi-bell</v-icon></router-link>
-        <router-link to="/feed"><v-icon>mdi-message-text</v-icon></router-link>
-        <router-link to="/feed"><v-icon>mdi-account-plus</v-icon></router-link>
-        <router-link to="/feed"><v-icon>mdi-help</v-icon></router-link>
-        <router-link to="/feed"><v-icon>mdi-settings</v-icon></router-link>
-        <router-link to="/about"><v-icon>mdi-information</v-icon></router-link>
-        <v-btn @click="() => this.$emit('logout')">Logout</v-btn>
       </div>
       <v-spacer></v-spacer>
-      <v-icon>mdi-dots-vertical</v-icon>
+      <v-menu>
+        <template v-slot:activator="{ on }">
+          <v-btn
+          dark
+          icon
+          v-on="on"
+          >
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+        <TopRightMenu
+          @logout="()=>this.$emit('logout')"
+        />
+      </v-menu>
     </v-app-bar>
 </template>
 
 <script>
+import TopRightMenu from './TopRightMenu'
+
 export default {
+  components: {
+    TopRightMenu
+  }
 }
 </script>
 
