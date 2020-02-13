@@ -1,10 +1,17 @@
 <template>
     <div>
-        <h1>{{ post.title }}</h1>
-        <p>{{ post.creator }}</p>
-        <p>{{ post.content }}</p>
-        <v-btn icon @click="()=>{this.$emit('view', post._id)}"><v-icon>mdi-card-search-outline</v-icon>view</v-btn>
-        <v-btn icon @click="()=>{this.$emit('delete', post._id)}"><v-icon>mdi-pencil-outline</v-icon>edit</v-btn>
+      <header class="post-header d-flex align-start">
+        <v-img :src="post.creator.profileImageUrl" max-width=50></v-img>
+        <span class="post-creator">{{ post.creator.firstName }} {{ post.creator.lastName }}</span>
+        <span class="time-date">{{ postTime }}&nbsp;{{ postDate }}</span>
+      </header>
+      <div class="post-content">
+        {{ post.content }}
+      </div>
+      <div class="post-actions d-flex align-end justify-end">
+        <v-btn icon @click="()=>{this.$emit('view', post._id)}"><v-icon>mdi-card-search-outline</v-icon></v-btn>
+        <v-btn icon @click="()=>{this.$emit('delete', post._id)}"><v-icon>mdi-delete</v-icon></v-btn>
+      </div>
     </div>
 </template>
 
@@ -12,9 +19,50 @@
 export default {
   props: {
     post: Object
+  },
+  data: () => {
+    return {
+      postTime: '',
+      postDate: ''
+    }
+  },
+  created () {
+    let vm = this
+    // let postTD = vm.post.createdAt.split('T')
+
+    vm.postTime = vm.post.createdAt.substring(
+      vm.post.createdAt.lastIndexOf('T') + 1,
+      vm.post.createdAt.lastIndexOf('.'))
+
+    vm.postDate = vm.post.createdAt.split('T')[0]
   }
 }
 </script>
 
 <style scoped>
+  .post-header {
+    margin-bottom: .5rem;
+  }
+
+  .time-date {
+    margin-left: auto;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: #999;
+  }
+
+  .post-creator {
+    margin: 0 1rem;
+    font-weight: 700;
+    font-size: 1.6rem;
+  }
+
+  .post-content {
+    padding: 1rem 0;
+    font-size: 1.5rem;
+  }
+
+  .post-actions {
+    border-top: .1rem solid #ccc;
+  }
 </style>

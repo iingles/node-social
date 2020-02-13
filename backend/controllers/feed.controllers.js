@@ -1,32 +1,27 @@
 import { Post } from '../models/Post'
 import { User } from '../models/User'
 
-export const getAllPosts = (req, res, next) => {
+export const getAllPosts = async (req, res, next) => {
     // Pagination
     const currentPage = req.query.page || 1
     const perPage = 12
     let totalItems;
-
-    Post.find()
-    .countDocuments()
-    .then(count => {
-        totalItems = count
-        return Post.find()
-        .skip((currentPage - 1 ) * perPage)
-        .limit(perPage)        
-    })
-    .then(posts => {
-        res
-        .status(200)
-        .json({
+    
+    try {
+        const totalItems = await Post.find().countDocuments()
+        const posts = await Post.find().populate('creator').skip((currentPage - 1 ) * perPage).limit(perPage)
+        
+        res.status(200).json({
             message: 'Fetched Posts Successfully',
             posts,
             totalItems
         })
-    })
-    .catch(err => {
-        console.log(err)
-    })
+    } catch (err) {
+        if(!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
+    }
 }
 
 export const savePost = (req, res, next) => {
@@ -55,7 +50,7 @@ export const savePost = (req, res, next) => {
             post: post,
             creator: { 
                 _id: creator._id, 
-                name: creator.name 
+                name: creator.firstName 
             }
         });
     })
@@ -74,10 +69,14 @@ export const getOnePost = (req, res, next) => {
             error.statusCode = 404
             throw error
         }
+        
         res.status(200)
         .json({
             message: 'Post Fetched',
             post: post
+        })
+        .catch(err => {
+            console.log(err)
         })
     })
     .catch(err => {

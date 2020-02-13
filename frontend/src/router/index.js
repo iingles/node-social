@@ -76,7 +76,7 @@ router.beforeEach((to, from, next) => {
   // Check to see if the route requires the user to be authenticated
   if (to.matched.some(route => route.meta.auth)) {
     // If there is no token, redirect to login
-    if (localStorage.getItem('token') == null) {
+    if (!localStorage.getItem('token')) {
       next({
         path: '/login',
         params: { nextUrl: to.fullPath }

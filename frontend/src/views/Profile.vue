@@ -1,27 +1,28 @@
 <template>
-   <v-container fluid>
+   <v-container>
         <v-row align="center">
-            <v-spacer></v-spacer>
-            <v-col class="sm-12 lg-3">
-                <!-- left column -->
-                <h2>{{ user.firstName + ' ' + user.lastName }}</h2>
-            <v-img
-            :src="user.profileImageUrl"
-            max-width=200
-            >
-            </v-img>
-            <h1>Status: </h1>
-            {{ user.status }}
-            <h2>Bio</h2>
-            {{ user.bio }}
+            <v-row class="user-banner">
+                <v-col class="d-flex flex-column justify-center align-center">
+                  <v-img
+                  :src="user.profileImageUrl"
+                  max-width=200
+                  ></v-img>
+                  <h2>{{ user.firstName + ' ' + user.lastName }}</h2>
+                </v-col>
+            </v-row>
+        </v-row>
+        <v-row>
+          <v-col cols="12" xs="12" lg="4">
+              <p>Following: {{ user.following.length }}</p>
+              <p>Followers: {{ user.followers.length }}</p>
+              <h1>Status: </h1>
+              {{ user.status }}
+              <h2>Bio</h2>
+              {{ user.bio }}
             </v-col>
-            <v-spacer></v-spacer>
-            <v-col class="sm-12 lg-9">
-                <!-- Right column -->
-               <p>Following: {{ user.following.length }}</p>
-               <p>Followers: {{ user.followers.length }}</p>
+            <v-col cols="12" xs="12" lg="8">
+              Feed
             </v-col>
-            <v-spacer></v-spacer>
         </v-row>
     </v-container>
 </template>
@@ -70,5 +71,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .user-banner {
+    background: #f1f1f1;
+  }
 </style>

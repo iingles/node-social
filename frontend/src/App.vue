@@ -36,5 +36,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+html {
+  font-size: 62.5%!important;
+}
+
+body {
+  font-size: 1.5rem;
+}
 </style>

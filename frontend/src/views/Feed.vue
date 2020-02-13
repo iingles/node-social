@@ -20,13 +20,17 @@
           <!-- Middle column -->
           <v-btn @click="singlePostModal=true">new post</v-btn>
           <template v-if="posts">
-            <v-sheet class="post" v-for="post in posts" :key="post._id">
+            <v-card class="post"
+            outlined
+            ripple
+            v-for="post in posts"
+            :key="post._id">
               <SinglePost
                 :post="post"
                 @view="viewPost($event)"
                 @delete="deletePost($event)"
               />
-            </v-sheet>
+            </v-card>
           </template>
           <template v-else>
             <h1>You don't have anything in your feed.</h1>
@@ -91,7 +95,7 @@ export default {
         if (resData.message === 'Not Authenticated') {
           return resData.message
         }
-        vm.posts = resData.posts
+        vm.posts = resData.posts.reverse()
       })
       .catch(err => {
         console.log(err)
@@ -125,7 +129,7 @@ export default {
           return res.json()
         })
         .then(resData => {
-
+          this.$router.push('/feed')
         })
         .catch(err => {
           console.log(err)
