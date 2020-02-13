@@ -6,9 +6,11 @@
                   <v-img
                   :src="user.profileImageUrl"
                   max-width=200
-                  ></v-img>
+                  class="d-flex align-end justify-end"
+                  ><div class="profile-action"><v-icon>mdi-camera</v-icon></div></v-img>
                   <h2>{{ user.firstName + ' ' + user.lastName }}</h2>
                 </v-col>
+                <div class="profile-action"><v-icon>mdi-camera</v-icon></div>
             </v-row>
         </v-row>
         <v-row>
@@ -17,8 +19,10 @@
               <p>Followers: {{ user.followers.length }}</p>
               <h1>Status: </h1>
               {{ user.status }}
+              <div class="profile-action"><v-icon>mdi-pencil</v-icon></div>
               <h2>Bio</h2>
               {{ user.bio }}
+              <div class="profile-action"><v-icon>mdi-pencil</v-icon></div>
             </v-col>
             <v-col cols="12" xs="12" lg="8">
               Feed
