@@ -1,9 +1,10 @@
 import { User } from '../models/User'
 
-export const getProfile = (req, res, next) => {
+export const getProfile = async (req, res, next) => {
     const userId = req.params.userId
-
+    
     User.findById(userId)
+        .populate('posts')
         .then(user => { 
             //IF the user doesn't exist, throw an error
             if(!user) {
@@ -12,7 +13,8 @@ export const getProfile = (req, res, next) => {
                 throw error
             }
             
-            //If the user exists, respond with the relevant info
+            User.findById(userId).populate('posts')
+
             res.status(200).json({
                 firstName: user.firstName,
                 lastName: user.lastName,
@@ -22,9 +24,9 @@ export const getProfile = (req, res, next) => {
                 bio: user.bio,
                 following: user.following,
                 followers: user.followers,
-                profileImageUrl: user.profileImageUrl
+                profileImageUrl: user.profileImageUrl,
+                posts: user.posts
             })
-
         })
         .catch(err => {
             if(!err.statusCode) {

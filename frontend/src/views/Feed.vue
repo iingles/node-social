@@ -99,7 +99,7 @@ export default {
         if (resData.message === 'Not Authenticated') {
           return resData.message
         }
-        vm.posts = resData.posts.reverse()
+        vm.posts = resData.posts
       })
       .catch(err => {
         console.log(err)
@@ -109,7 +109,7 @@ export default {
     socket.on('posts', data => {
       if (data.action === 'create') {
         console.log(data.post)
-        vm.posts.push(data.post)
+        vm.posts.shift(data.post)
       }
     })
   },

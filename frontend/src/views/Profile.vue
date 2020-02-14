@@ -27,7 +27,25 @@
             </v-col>
             <v-col cols="12" xs="12" lg="8">
               <h1>Posts</h1>
-              {{ user.posts }}
+              <v-card
+                v-for="post in user.posts"
+                :key="post._id"
+                outlined
+                tile
+                ripple
+              >
+              <header class="post-header d-flex align-start">
+                <v-img :src="post.creator.profileImageUrl" max-width=50></v-img>
+                <router-link class="post-creator" :to="`/profile/${post.creator._id}`">{{ post.creator.firstName }} {{ post.creator.lastName }}</router-link>
+              </header>
+              <div class="post-content">
+                {{ post.content }}
+              </div>
+              <div class="post-actions d-flex align-end justify-end">
+                <v-btn icon @click="()=>{this.$emit('view', post._id)}"><v-icon>mdi-card-search-outline</v-icon></v-btn>
+                <v-btn icon @click="()=>{this.$emit('delete', post._id)}"><v-icon>mdi-delete</v-icon></v-btn>
+              </div>
+            </v-card>
             </v-col>
         </v-row>
     </v-container>
@@ -48,7 +66,8 @@ export default {
         bio: '',
         profileImageUrl: '',
         followers: [],
-        following: []
+        following: [],
+        posts: []
       },
       localStorage
     }
