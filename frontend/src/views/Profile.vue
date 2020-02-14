@@ -7,10 +7,10 @@
                   :src="user.profileImageUrl"
                   max-width=200
                   class="d-flex align-end justify-end"
-                  ><div class="profile-action"><v-icon>mdi-camera</v-icon></div></v-img>
+                  ><div class="profile-action" v-if="this.$route.params.id === localStorage.userId"><v-icon>mdi-camera</v-icon></div></v-img>
                   <h2>{{ user.firstName + ' ' + user.lastName }}</h2>
                 </v-col>
-                <div class="profile-action"><v-icon>mdi-camera</v-icon></div>
+                <div class="profile-action" v-if="this.$route.params.id === localStorage.userId"><v-icon>mdi-camera</v-icon></div>
             </v-row>
         </v-row>
         <v-row>
@@ -19,10 +19,10 @@
               <p>Followers: {{ user.followers.length }}</p>
               <h1>Status: </h1>
               {{ user.status }}
-              <div class="profile-action"><v-icon>mdi-pencil</v-icon></div>
+              <div class="profile-action" v-if="this.$route.params.id === localStorage.userId"><v-icon>mdi-pencil</v-icon></div>
               <h2>Bio</h2>
               {{ user.bio }}
-              <div class="profile-action"><v-icon>mdi-pencil</v-icon></div>
+              <div class="profile-action" v-if="this.$route.params.id === localStorage.userId"><v-icon>mdi-pencil</v-icon></div>
             </v-col>
             <v-col cols="12" xs="12" lg="8">
               Feed
@@ -47,7 +47,8 @@ export default {
         profileImageUrl: '',
         followers: [],
         following: []
-      }
+      },
+      localStorage
     }
   },
   created () {
