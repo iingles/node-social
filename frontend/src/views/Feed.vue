@@ -1,8 +1,9 @@
 <template>
   <div>
     <v-content>
-      <v-row>
-        <v-col class="sm-12 md-3 lg-3">
+      <v-spacer></v-spacer>
+      <v-row class="d-flex justify-center">
+        <v-col cols="12" xs="12" sm="12" md="3" lg="2" class="order-xs-3 order-sm-3 order-md-2 order-lg-1">
           <section>
             <!-- Left Column -->
             <h1>Recent Media</h1>
@@ -16,12 +17,13 @@
             </template>
            </section>
         </v-col>
-        <v-col class="sm-12 md-6 lg-6">
+        <v-col cols="12" xs="12" md="7" sm="12" lg="5" class="order-xs-1 order-sm-1 order-md-1 order-lg-2">
           <!-- Middle column -->
           <v-btn @click="singlePostModal=true">new post</v-btn>
           <template v-if="posts">
             <v-card class="post"
             outlined
+            tile
             ripple
             v-for="post in posts"
             :key="post._id">
@@ -36,13 +38,14 @@
             <h1>You don't have anything in your feed.</h1>
           </template>
         </v-col>
-        <v-col class="sm-12 md-3 lg-3">
+        <v-col cols="12" xs="12" sm="12" md="12" lg="2" class="order-xs-2 order-sm-2 order-md-2 order-lg-3">
           <section>
           <!-- Right Column -->
           <h1>Recommended</h1>
           </section>
         </v-col>
       </v-row>
+      <v-spacer></v-spacer>
     </v-content>
       <PostModal
         :dialog="this.singlePostModal"

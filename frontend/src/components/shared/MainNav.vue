@@ -2,18 +2,10 @@
     <v-app-bar
       app
       fixed
-      dense
-      collapse-on-scroll
-      color="primary"
-      dark
+      light
       class="main-nav"
     >
       <v-spacer></v-spacer>
-      <div class="d-flex align-center">
-        <router-link to="/feed"><v-icon>mdi-home</v-icon></router-link>
-        <router-link to="/profile"><v-icon>mdi-account</v-icon></router-link>
-      </div>
-
       <v-form id="main-search" method="POST">
         <v-text-field
           prepend-inner-icon="mdi-magnify"
@@ -27,19 +19,15 @@
         >
         </v-text-field>
       </v-form>
-
-      <div class="d-flex justify-space-between align-center">
-        <router-link to="/feed"><v-icon>mdi-bell</v-icon></router-link>
-      </div>
       <v-spacer></v-spacer>
       <v-menu>
         <template v-slot:activator="{ on }">
           <v-btn
-          dark
+          light
           icon
           v-on="on"
           >
-            <v-icon>mdi-dots-vertical</v-icon>
+            <v-icon>mdi-menu</v-icon>
           </v-btn>
         </template>
         <TopRightMenu
@@ -67,7 +55,7 @@ export default {
   }
 
   #main-search {
-      margin: 0 3rem;
+      margin: 1rem 3rem;
   }
 
 </style>

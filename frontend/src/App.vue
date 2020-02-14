@@ -8,18 +8,21 @@
       :token="authToken"
       ></router-view>
     </v-content>
+    <Footer/>
   </v-app>
 </template>
 
 <script>
 import MainNav from './components/shared/MainNav'
+import Footer from './components/shared/Footer'
 
 export default {
 
   name: 'App',
 
   components: {
-    MainNav
+    MainNav,
+    Footer
   },
 
   data: () => ({
