@@ -9,6 +9,7 @@
                   class="d-flex align-end justify-end"
                   ><div class="profile-action" v-if="this.$route.params.id === localStorage.userId"><v-icon>mdi-camera</v-icon></div></v-img>
                   <h2>{{ user.firstName + ' ' + user.lastName }}</h2>
+                  <v-btn v-if="localStorage.userId != this.$route.params.id">Follow</v-btn>
                 </v-col>
                 <div class="profile-action" v-if="this.$route.params.id === localStorage.userId"><v-icon>mdi-camera</v-icon></div>
             </v-row>
@@ -25,7 +26,8 @@
               <div class="profile-action" v-if="this.$route.params.id === localStorage.userId"><v-icon>mdi-pencil</v-icon></div>
             </v-col>
             <v-col cols="12" xs="12" lg="8">
-              Feed
+              <h1>Posts</h1>
+              {{ user.posts }}
             </v-col>
         </v-row>
     </v-container>
