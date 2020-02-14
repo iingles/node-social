@@ -53,7 +53,9 @@ export default {
   created () {
     let vm = this
 
-    fetch(`http://localhost:3000/user/profile/${localStorage.getItem('userId')}`, {
+    let userId = this.$route.params.id
+
+    fetch(`http://localhost:3000/user/profile/${userId}`, {
       headers: {
         Authorization: `Bearer ${vm.token}`
       }

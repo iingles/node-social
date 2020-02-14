@@ -2,7 +2,7 @@
     <div>
       <header class="post-header d-flex align-start">
         <v-img :src="post.creator.profileImageUrl" max-width=50></v-img>
-        <span class="post-creator">{{ post.creator.firstName }} {{ post.creator.lastName }}</span>
+        <router-link class="post-creator" :to="`/profile/${post.creator._id}`">{{ post.creator.firstName }} {{ post.creator.lastName }}</router-link>
         <span class="time-date">{{ postTime }}&nbsp;{{ postDate }}</span>
       </header>
       <div class="post-content">
@@ -53,8 +53,11 @@ export default {
 
   .post-creator {
     margin: 0 1rem;
+    color: #000;
+    text-decoration: none;
     font-weight: 700;
     font-size: 1.6rem;
+    cursor: pointer;
   }
 
   .post-content {

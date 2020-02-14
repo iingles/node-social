@@ -63,6 +63,7 @@
 <script>
 import PostModal from '../components/posts/PostModal'
 import SinglePost from '../components/posts/SinglePost'
+import openSocket from 'socket.io-client'
 
 export default {
   props: {
@@ -103,8 +104,21 @@ export default {
       .catch(err => {
         console.log(err)
       })
+    // Set up socket.io
+    const socket = openSocket('http://localhost:3000')
+    socket.on('posts', data => {
+      if (data.action === 'create') {
+        console.log(data.post)
+        vm.posts.push(data.post)
+      }
+    })
   },
   methods: {
+    addPost (data) {
+      let vm = this
+      const updatedPosts = [...vm.posts]
+      return { posts: updatedPosts }
+    },
     // Save a post to the database
     savePost (postData) {
       let vm = this
@@ -130,9 +144,6 @@ export default {
             throw new Error('Creating or Editing a post failed!')
           }
           return res.json()
-        })
-        .then(resData => {
-          this.$router.push('/feed')
         })
         .catch(err => {
           console.log(err)

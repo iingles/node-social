@@ -1,5 +1,13 @@
+import path from 'path'
+import fs from 'fs'
+
+import { validationResult } from 'express-validator'
+
+import { sock } from '../socket'
+
 import { Post } from '../models/Post'
 import { User } from '../models/User'
+
 
 export const getAllPosts = async (req, res, next) => {
     // Pagination
@@ -43,6 +51,18 @@ export const savePost = (req, res, next) => {
     }).then(user => {
         creator = user
         user.posts.push(post)
+        sock.getIo().emit('posts', { 
+            action: 'create', 
+            post: {
+                ...post._doc, 
+                creator: { 
+                _id: req.userId, 
+                firstName: user.firstName, 
+                lastName: user.lastName,
+                profileImageUrl: user.profileImageUrl
+            }
+        } 
+        })
         return user.save()
     }).then(result =>{
         res.status(201).json({

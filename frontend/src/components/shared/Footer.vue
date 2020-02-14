@@ -4,12 +4,13 @@
     bottom
     fixed
     dense
-    light
+    dark
+    color="blue"
     >
     <v-spacer></v-spacer>
     <div class="d-flex align-center bottom-nav">
         <router-link to="/feed"><v-icon>mdi-home</v-icon></router-link>
-        <router-link to="/profile"><v-icon>mdi-account</v-icon></router-link>
+        <router-link :to="`/profile/${localStorage.getItem('userId')}`"><v-icon>mdi-account</v-icon></router-link>
         <router-link to="/messages"><v-icon>mdi-message-text</v-icon></router-link>
         <router-link to="/feed"><v-icon>mdi-bell</v-icon></router-link>
     </div>
@@ -19,6 +20,11 @@
 
 <script>
 export default {
+  data: () => {
+    return {
+      localStorage: localStorage
+    }
+  }
 }
 </script>
 

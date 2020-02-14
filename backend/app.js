@@ -14,6 +14,7 @@ import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import multer from 'multer'
+import { sock } from './socket'
 
 //App Constants
 const app = express()
@@ -48,6 +49,7 @@ const fileFilter = (req, file, cb) => {
 import { feedRouter } from './routes/feed.routes'
 import { authRouter } from './routes/auth.routes'
 import { userRouter } from './routes/user.routes'
+// import { Socket } from 'dgram' //where did this come from??
 
 //Cross Origin middleware
 app.use(cors())
@@ -94,7 +96,14 @@ mongoose
 })
 .then(result =>{
     console.log('Database connection successful')
-    app.listen(PORT, console.log(`Server listening on port ${PORT}`))
+    const server = app.listen(PORT, console.log(`Server listening on port ${PORT}`))
+
+    //set up socket.io
+    const io = sock.init(server)
+
+    io.on('connection', socket => {
+        console.log('Client connected')
+    })
 })
 .catch(err => {
     console.log(err)

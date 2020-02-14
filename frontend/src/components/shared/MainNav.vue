@@ -2,7 +2,8 @@
     <v-app-bar
       app
       fixed
-      light
+      dark
+      color="blue"
       class="main-nav"
     >
       <v-spacer></v-spacer>
@@ -23,7 +24,7 @@
       <v-menu>
         <template v-slot:activator="{ on }">
           <v-btn
-          light
+          dark
           icon
           v-on="on"
           >
