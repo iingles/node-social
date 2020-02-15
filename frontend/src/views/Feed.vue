@@ -221,12 +221,20 @@ export default {
         }
       })
         .then(res => {
-          console.log(res)
-          location.reload()
+
         })
         .catch(err => {
           console.log(err)
         })
+      const socket = openSocket('http://localhost:3000')
+      socket.on('posts', data => {
+        if (data.action === 'delete') {
+          const updatedPostIndex = vm.posts.findIndex(p => p._id === postId)
+          if (updatedPostIndex > -1) {
+            vm.posts.splice(updatedPostIndex, 1)
+          }
+        }
+      })
     },
     cancelModal () {
       // If the modal window is closed, reset everything

@@ -1,7 +1,6 @@
 <template>
     <div>
       <header class="post-header d-flex align-start">
-        {{ post }}
         <v-img :src="post.creator.profileImageUrl" max-width=50></v-img>
         <router-link class="post-creator" :to="`/profile/${post.creator._id}`">{{ post.creator.firstName }} {{ post.creator.lastName }}</router-link>
         <span class="time-date">{{ postTime }}&nbsp;{{ postDate }}</span>

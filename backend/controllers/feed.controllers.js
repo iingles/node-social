@@ -156,8 +156,9 @@ export const updatePost = async (req, res, next) => {
 export const deleteOnePost = async (req, res, next) => {
     const postId = req.params.postId
     
-    Post.findById(postId)
-    .then(post =>{
+    try {
+        const post = await Post.findById(postId)
+
         //Check to make sure a post exists
         if (!post ) {
             const error = new Error('Could not find post')
@@ -172,23 +173,20 @@ export const deleteOnePost = async (req, res, next) => {
             throw error
         }
         //check logged in user
-        return Post.findByIdAndRemove(postId, { useFindAndModify: false })
-    })
-    .then(result => {
-        // Clear the relation between the post and the user
-        return User.findById(req.userId)
-        
-    })
-    .then(user => {
+        await Post.findByIdAndRemove(postId, { useFindAndModify: false })
+
+        const user = await User.findById(req.userId)
         user.posts.pull(postId)
-        return user.save()        
-    })
-    .then(result => {
-        res.status(200).json({
-            message: 'Deleted post.'
+        await user.save()
+        sock.getIo().emit('posts', {
+            action: 'delete',
+            post: postId
         })
-    })
-    .catch(err => {
-        console.log(err)
-    })
+        res.status(200).json({ message: 'Deleted post.' })
+    } catch (err) {
+        if(!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
+    }
 }

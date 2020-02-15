@@ -13,7 +13,9 @@ export const getProfile = async (req, res, next) => {
                 throw error
             }
             
-            User.findById(userId).populate('posts')
+            User.findById(userId)
+            .populate('posts')
+            .sort({createdAt: -1})
 
             res.status(200).json({
                 firstName: user.firstName,

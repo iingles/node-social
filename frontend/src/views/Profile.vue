@@ -114,7 +114,6 @@ export default {
           return resData.message
         }
         vm.user = resData
-        vm.user.posts.sort({ createdAt: -1 })
       })
       .catch(err => {
         console.log(err)
