@@ -111,7 +111,7 @@ export default {
     socket.on('posts', data => {
       if (data.action === 'create') {
         console.log(data.post)
-        vm.posts.shift(data.post)
+        vm.posts.unshift(data.post)
       }
     })
   },

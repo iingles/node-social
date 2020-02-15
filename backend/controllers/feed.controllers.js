@@ -18,7 +18,11 @@ export const getAllPosts = async (req, res, next) => {
     
     try {
         const totalItems = await Post.find().countDocuments()
-        const posts = await Post.find().populate('creator').skip((currentPage - 1 ) * perPage).limit(perPage)
+        const posts = await Post.find()
+        .populate('creator')
+        .sort({ createdAt: -1 })
+        .skip((currentPage - 1 ) * perPage)
+        .limit(perPage)
         
         res.status(200).json({
             message: 'Fetched Posts Successfully',
@@ -76,16 +80,18 @@ export const savePost = (req, res, next) => {
         });
     })
     .catch(err => {
-        console.log(err)
+        if(!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
     })  
 }
 
 export const getOnePost = async (req, res, next) => {
     const postId = req.params.postId
 
-    Post
-    .findById(postId)
-    .then(post => {
+    try {
+        const post = await Post.findById(postId)
         if(!post) {
             const error = new Error('Could not find post.')
             error.statusCode = 404
@@ -97,10 +103,12 @@ export const getOnePost = async (req, res, next) => {
             message: 'Post Fetched',
             post: post
         })
-    })
-    .catch(err => {
-        console.log(err)
-    })
+    } catch (err) {
+        if(!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
+    }
 }
 
 export const updatePost = async (req, res, next) => {
@@ -145,7 +153,7 @@ export const updatePost = async (req, res, next) => {
     }
 }
 
-export const deleteOnePost = (req, res, next) => {
+export const deleteOnePost = async (req, res, next) => {
     const postId = req.params.postId
     
     Post.findById(postId)
