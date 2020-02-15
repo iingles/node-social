@@ -21,7 +21,8 @@
           <!-- Middle column -->
           <v-btn @click="singlePostModal=true">new post</v-btn>
           <template v-if="posts">
-            <v-card class="post"
+            <v-card
+            class="post"
             outlined
             tile
             ripple
