@@ -10,20 +10,32 @@
       </div>
       <div class="post-actions d-flex align-end justify-end">
         <v-btn icon @click="()=>{this.$emit('view', post._id)}"><v-icon>mdi-card-search-outline</v-icon></v-btn>
-        <v-btn
+        <DeletePost
+          :token="token"
+          :postId="post._id"
+          :authUser="authUser"
+          :creatorId="post.creator._id"
+        />
+        <!-- <v-btn
         icon
          @click="()=>{this.$emit('delete', post._id)}"
          v-if="post.creator._id === authUser"
-         ><v-icon>mdi-delete</v-icon></v-btn>
+         ><v-icon>mdi-delete</v-icon></v-btn> -->
       </div>
     </div>
 </template>
 
 <script>
+import DeletePost from './post-actions/DeletePost'
+
 export default {
+  components: {
+    DeletePost
+  },
   props: {
     post: Object,
-    authUser: String
+    authUser: String,
+    token: String
   },
   data: () => {
     return {

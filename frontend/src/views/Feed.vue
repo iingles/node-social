@@ -31,6 +31,7 @@
               <SinglePost
                 :authUser="authUser"
                 :post="post"
+                :token="token"
                 @view="viewPost($event)"
                 @delete="deletePost($event)"
               />
