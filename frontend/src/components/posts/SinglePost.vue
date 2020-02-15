@@ -10,7 +10,11 @@
       </div>
       <div class="post-actions d-flex align-end justify-end">
         <v-btn icon @click="()=>{this.$emit('view', post._id)}"><v-icon>mdi-card-search-outline</v-icon></v-btn>
-        <v-btn icon @click="()=>{this.$emit('delete', post._id)}"><v-icon>mdi-delete</v-icon></v-btn>
+        <v-btn
+        icon
+         @click="()=>{this.$emit('delete', post._id)}"
+         v-if="post.creator._id === authUser"
+         ><v-icon>mdi-delete</v-icon></v-btn>
       </div>
     </div>
 </template>
@@ -18,7 +22,8 @@
 <script>
 export default {
   props: {
-    post: Object
+    post: Object,
+    authUser: String
   },
   data: () => {
     return {

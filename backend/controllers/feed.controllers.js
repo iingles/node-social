@@ -7,6 +7,7 @@ import { sock } from '../socket'
 
 import { Post } from '../models/Post'
 import { User } from '../models/User'
+import { isObject } from 'util'
 
 
 export const getAllPosts = async (req, res, next) => {
@@ -79,8 +80,9 @@ export const savePost = (req, res, next) => {
     })  
 }
 
-export const getOnePost = (req, res, next) => {
+export const getOnePost = async (req, res, next) => {
     const postId = req.params.postId
+
     Post
     .findById(postId)
     .then(post => {
@@ -95,28 +97,25 @@ export const getOnePost = (req, res, next) => {
             message: 'Post Fetched',
             post: post
         })
-        .catch(err => {
-            console.log(err)
-        })
     })
     .catch(err => {
         console.log(err)
     })
 }
 
-export const updatePost = (req, res, next) => {
+export const updatePost = async (req, res, next) => {
     const postId = req.params.postId
     const title = req.body.title
     const content = req.body.content
-
-    Post.findById(postId)
-    .then(post => {
+    
+    try {
+        const post = await Post.findById(postId).populate('creator')
         if (!post) {
             const error = new Error('Could not find post.')
             error.statusCode = 404
             throw error
         }
-        if (post.creator.toString() !== req.userId) {
+        if (post.creator._id.toString() !== req.userId) {
             console.log('not authorized')
             const error = new Error('Not Authorized')
             error.statusCode = 403
@@ -125,21 +124,25 @@ export const updatePost = (req, res, next) => {
 
         post.title = title
         post.content = content
-        return post.save()
-    })
-    .then(result => {
+        const result = await post.save()
+
+        sock.getIo().emit('posts', {
+            action: 'update',
+            post: result
+        })
+
         res.status(200)
         .json({
             message: 'Post updated.',
             post: result
         })
-    })
-    .catch(err => {
+
+    } catch (err) {
         if(!err.statusCode) {
             err.statusCode = 500
         }
         next(err)
-    })
+    }
 }
 
 export const deleteOnePost = (req, res, next) => {

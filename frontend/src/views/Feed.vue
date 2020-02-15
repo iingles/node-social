@@ -28,6 +28,7 @@
             v-for="post in posts"
             :key="post._id">
               <SinglePost
+                :authUser="authUser"
                 :post="post"
                 @view="viewPost($event)"
                 @delete="deletePost($event)"
@@ -67,7 +68,8 @@ import openSocket from 'socket.io-client'
 
 export default {
   props: {
-    token: String
+    token: String,
+    authUser: String
   },
   components: {
     SinglePost,
@@ -194,6 +196,16 @@ export default {
         .catch(err => {
           console.log(err + 'failure')
         })
+
+      const socket = openSocket('http://localhost:3000')
+      socket.on('posts', data => {
+        if (data.action === 'update') {
+          const updatedPostIndex = vm.posts.findIndex(p => p._id === postData._id)
+          if (updatedPostIndex > -1) {
+            vm.posts[updatedPostIndex].content = postData.content
+          }
+        }
+      })
       vm.singlePostModal = false
     },
     deletePost (postId) {

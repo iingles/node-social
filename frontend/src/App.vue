@@ -6,6 +6,7 @@
     <v-content>
       <router-view
       :token="authToken"
+      :authUser="authUser"
       ></router-view>
     </v-content>
     <Footer/>
@@ -27,7 +28,7 @@ export default {
 
   data: () => ({
     authToken: localStorage.getItem('token'),
-    componentKey: 0
+    authUser: localStorage.getItem('userId')
   }),
   methods: {
     logout () {
