@@ -7,11 +7,25 @@
                   :src="user.profileImageUrl"
                   max-width=200
                   class="d-flex align-end justify-end"
-                  ><div class="profile-action" v-if="this.$route.params.id === localStorage.userId"><v-icon>mdi-camera</v-icon></div></v-img>
+                  >
+                  <v-btn
+                  icon
+                  @click="updateProfile('profile-picture')"
+                  class="profile-action"
+                  v-if="this.$route.params.id === localStorage.userId"
+                  ><v-icon>mdi-camera</v-icon>
+                  </v-btn>
+                  </v-img>
                   <h2>{{ user.firstName + ' ' + user.lastName }}</h2>
                   <v-btn v-if="localStorage.userId != this.$route.params.id">Follow</v-btn>
                 </v-col>
-                <div class="profile-action" v-if="this.$route.params.id === localStorage.userId"><v-icon>mdi-camera</v-icon></div>
+                <v-btn
+                 icon
+                 @click="updateProfile('background-picture')"
+                 class="profile-action"
+                 v-if="this.$route.params.id === localStorage.userId"
+                 ><v-icon>mdi-camera</v-icon>
+                 </v-btn>
             </v-row>
         </v-row>
         <v-row>
@@ -20,10 +34,22 @@
               <p>Followers: {{ user.followers.length }}</p>
               <h1>Status: </h1>
               {{ user.status }}
-              <div class="profile-action" v-if="this.$route.params.id === localStorage.userId"><v-icon>mdi-pencil</v-icon></div>
+              <v-btn
+               icon
+               @click="updateProfile('status')"
+               class="profile-action"
+               v-if="this.$route.params.id === localStorage.userId"
+               ><v-icon>mdi-pencil</v-icon>
+               </v-btn>
               <h2>Bio</h2>
               {{ user.bio }}
-              <div class="profile-action" v-if="this.$route.params.id === localStorage.userId"><v-icon>mdi-pencil</v-icon></div>
+              <v-btn
+              icon
+              @click="updateProfile('bio')"
+              class="profile-action"
+              v-if="this.$route.params.id === localStorage.userId"
+              ><v-icon>mdi-pencil</v-icon>
+              </v-btn>
             </v-col>
             <v-col cols="12" xs="12" lg="8">
               <h1>Posts</h1>
@@ -94,6 +120,11 @@ export default {
       .catch(err => {
         console.log(err)
       })
+  },
+  methods: {
+    updateProfile (proSection) {
+      console.log(proSection)
+    }
   }
 }
 </script>

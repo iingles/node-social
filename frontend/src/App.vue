@@ -26,7 +26,8 @@ export default {
   },
 
   data: () => ({
-    authToken: localStorage.getItem('token')
+    authToken: localStorage.getItem('token'),
+    componentKey: 0
   }),
   methods: {
     logout () {
