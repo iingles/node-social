@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <MainNav v-if="authToken"
+    <Header
+      v-if="authToken"
       @logout="logout()"
     />
     <v-content>
@@ -9,12 +10,14 @@
       :authUser="authUser"
       ></router-view>
     </v-content>
-    <Footer/>
+    <Footer
+      v-if="authToken"
+    />
   </v-app>
 </template>
 
 <script>
-import MainNav from './components/shared/MainNav'
+import Header from './components/shared/Header'
 import Footer from './components/shared/Footer'
 
 export default {
@@ -22,7 +25,7 @@ export default {
   name: 'App',
 
   components: {
-    MainNav,
+    Header,
     Footer
   },
 

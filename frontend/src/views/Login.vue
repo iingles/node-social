@@ -1,8 +1,10 @@
 <template>
     <v-container>
-        <v-row class="xs-12 md-6 lg-8 xs-ma-0 lg-ma-10">
-            <v-col cols="12">
+        <v-row>
+         <v-spacer></v-spacer>
+            <v-col cols="12" xs='9' sm='9' md='6' lg='4'>
                 <v-card class="pa-10">
+                  <v-card-title><h1>Social Network App</h1></v-card-title>
                     <v-card-title>Welcome, please login</v-card-title>
                     <v-form @submit.prevent="loginHandler" @keyup.enter="loginHandler" ref="loginForm">
                         <v-text-field
@@ -34,6 +36,7 @@
                     </template>
                 </transition>
             </v-col>
+            <v-spacer></v-spacer>
         </v-row>
     </v-container>
 </template>

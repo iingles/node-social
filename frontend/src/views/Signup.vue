@@ -1,51 +1,57 @@
 <template>
-    <v-content>
-        <v-card class="pa-10">
-            <v-card-title>Sign Up</v-card-title>
-            <v-form @submit.prevent="signUpHandler" @keyup.enter="signUpHandler" ref="signUpForm">
-                <v-text-field
-                    v-model.lazy="firstName"
-                    label="First Name"
-                    :rules="nameRules"
-                >
-                </v-text-field>
-                <v-text-field
-                    v-model.lazy="lastName"
-                    label="Last Name"
-                    :rules="nameRules"
-                >
-                </v-text-field>
-                <v-text-field
-                    v-model.lazy="email"
-                    label="E-Mail Address"
-                    :rules="emailRules"
-                >
-                </v-text-field>
-                <v-text-field
-                    v-model.lazy="password"
-                    label="Password"
-                    type="password"
-                    :rules="passwordRules"
-                >
-                </v-text-field>
-                <v-text-field
-                    v-model.lazy="rePass"
-                    label="Re-Enter Password"
-                    type="password"
-                    :rules="passwordRules"
-                >
-                </v-text-field>
-                <v-btn
-                @click="signUpHandler"
-                type="submit"
-                rounded
-                color="blue"
-                dark
-                >Submit</v-btn>
-            </v-form>
-        </v-card>
-        <p>Have an account? <router-link to="/login">Login Here.</router-link></p>
-    </v-content>
+    <v-container>
+      <v-row>
+        <v-spacer></v-spacer>
+        <v-col cols="12" xs='9' sm='9' md='6' lg='4'>
+          <v-card class="pa-10">
+              <v-card-title><h1>Sign Up</h1></v-card-title>
+              <v-form @submit.prevent="signUpHandler" @keyup.enter="signUpHandler" ref="signUpForm">
+                  <v-text-field
+                      v-model.lazy="firstName"
+                      label="First Name"
+                      :rules="nameRules"
+                  >
+                  </v-text-field>
+                  <v-text-field
+                      v-model.lazy="lastName"
+                      label="Last Name"
+                      :rules="nameRules"
+                  >
+                  </v-text-field>
+                  <v-text-field
+                      v-model.lazy="email"
+                      label="E-Mail Address"
+                      :rules="emailRules"
+                  >
+                  </v-text-field>
+                  <v-text-field
+                      v-model.lazy="password"
+                      label="Password"
+                      type="password"
+                      :rules="passwordRules"
+                  >
+                  </v-text-field>
+                  <v-text-field
+                      v-model.lazy="rePass"
+                      label="Re-Enter Password"
+                      type="password"
+                      :rules="passwordRules"
+                  >
+                  </v-text-field>
+                  <v-btn
+                  @click="signUpHandler"
+                  type="submit"
+                  rounded
+                  color="blue"
+                  dark
+                  >Submit</v-btn>
+              </v-form>
+          </v-card>
+          <p>Have an account? <router-link to="/login">Login Here.</router-link></p>
+        </v-col>
+        <v-spacer></v-spacer>
+      </v-row>
+    </v-container>
 </template>
 
 <script>
