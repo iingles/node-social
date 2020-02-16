@@ -36,8 +36,8 @@
         </v-row>
         <v-row>
           <v-col cols="12" xs="12" lg="4">
-              <p>Following: {{ user.following.length }}</p>
-              <p>Followers: {{ user.followers.length }}</p>
+              <p><router-link :to="`/user/${localStorage.userId}/follows/`">Following: {{ user.following.length }}</router-link></p>
+              <p><router-link :to="`/user/${localStorage.userId}/follows/`">Followers:  {{ user.followers.length }}</router-link></p>
               <h1>Status: </h1>
               {{ user.status }}
               <v-btn

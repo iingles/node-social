@@ -8,6 +8,7 @@
       <router-view
       :token="authToken"
       :authUser="authUser"
+      :key="$route.fullPath"
       ></router-view>
     </v-content>
     <Footer

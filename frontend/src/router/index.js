@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 // Components
 import Login from '../views/Login'
 import Signup from '../views/Signup'
+import Profile from '../views/Profile'
 
 Vue.use(VueRouter)
 
@@ -41,7 +42,12 @@ const routes = [
     meta: {
       auth: true
     },
-    component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue')
+    component: Profile
+  },
+  {
+    path: '/user/:id/follows',
+    name: 'follows',
+    component: () => import(/* webpackChunkName: "follows" */ '../views/Follows.vue')
   },
   {
     path: '/signup',
