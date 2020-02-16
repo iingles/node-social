@@ -9,6 +9,39 @@
         {{ post.content }}
       </div>
       <div class="post-actions d-flex align-end justify-end">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn icon  v-on="on">
+              <v-icon>mdi-thumb-up</v-icon>
+            </v-btn>
+          </template>
+          <span>Like</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn icon  v-on="on">
+              <v-icon>mdi-message-outline</v-icon>
+            </v-btn>
+          </template>
+          <span>Comment</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn icon  v-on="on">
+              <v-icon>mdi-share-variant</v-icon>
+            </v-btn>
+          </template>
+          <span>Share</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn icon  v-on="on">
+              <v-icon>mdi-code-tags</v-icon>
+            </v-btn>
+          </template>
+          <span>Embed</span>
+        </v-tooltip>
+        <v-spacer></v-spacer>
         <v-btn icon @click="()=>{this.$emit('view', post._id)}"><v-icon>mdi-card-search-outline</v-icon></v-btn>
         <DeletePost
           :token="token"
