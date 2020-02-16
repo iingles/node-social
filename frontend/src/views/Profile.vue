@@ -17,7 +17,13 @@
                   </v-btn>
                   </v-img>
                   <h2>{{ user.firstName + ' ' + user.lastName }}</h2>
-                  <v-btn v-if="localStorage.userId != this.$route.params.id">Follow</v-btn>
+                  <v-btn
+                    icon
+                    v-if="localStorage.userId != this.$route.params.id"
+                    @click="updateFollower(localStorage.userId, 'add')"
+                    >
+                    <v-icon>mdi-account-plus</v-icon>
+                  </v-btn>
                 </v-col>
                 <v-btn
                  icon
@@ -122,6 +128,31 @@ export default {
   methods: {
     updateProfile (proSection) {
       console.log(proSection)
+    },
+    updateFollower (userId, opt) {
+      const followerId = this.$route.params.id
+      const url = `http://localhost:3000/user/profile/updateFollowers`
+      let vm = this
+      let method = 'PATCH'
+
+      fetch(url, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${vm.token}`
+        },
+        body: JSON.stringify({
+          userId: userId,
+          followerId: followerId,
+          opt: opt
+        })
+      })
+        .then(res => {
+          return res.json()
+        })
+        .catch(err => {
+          console.log(`${err} failure`)
+        })
     }
   }
 }

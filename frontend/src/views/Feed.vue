@@ -112,7 +112,6 @@ export default {
     const socket = openSocket('http://localhost:3000')
     socket.on('posts', data => {
       if (data.action === 'create') {
-        console.log(data.post)
         vm.posts.unshift(data.post)
       }
     })
