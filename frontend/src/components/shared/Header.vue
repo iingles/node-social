@@ -7,14 +7,12 @@
       class="main-nav"
     >
       <v-spacer></v-spacer>
-      <v-form id="main-search" method="POST">
+      <v-form id="main-search" method="POST" class="mt-8">
         <v-text-field
           prepend-inner-icon="mdi-magnify"
           label="search"
-          outlined
-          clearable
           rounded
-          filled
+          clearable
           light
           background-color="white"
         >
