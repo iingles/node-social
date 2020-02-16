@@ -62,7 +62,7 @@ app.use(multer({
     storage: fileStorage,
     fileFilter: fileFilter
 })
-//image = field name from incoming data
+//image = field name for incoming data
 .single('image'))
 
 

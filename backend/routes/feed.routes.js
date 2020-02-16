@@ -40,8 +40,17 @@ isAuth,
 feedRouter.get('/post/:postId', isAuth, getOnePost)
 
 //Updating a post
-feedRouter.put('/post/:postId', isAuth, updatePost)
-
+feedRouter.put(
+    '/post/:postId', 
+    isAuth, 
+    [
+        body('title')
+        .trim(),
+        body('content')
+        .trim()
+    ],
+updatePost
+)
 
 /*
     Path: /feed/post/:postId

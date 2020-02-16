@@ -38,12 +38,19 @@ export const getProfile = async (req, res, next) => {
         })
 }
 
-export const updateProfile = (req, res, next) => {
+export const updateProfile = async (req, res, next) => {
     const userId = req.params.userId
-    const currUser = req.body.user
+    let firstName = req.body.firstName
+    let lastName = req.body.lastName
+    let phone = req.body.phone
+    let email = req.body.email
+    let status = req.user.status
+    let bio = req.user.bio
+    let profileImageUrl = req.body.profileImageUrl
+    
+    try {
+        const user = await User.findById(userId)
 
-    User.findById(userId)
-    .then(user => {
         if(!user) {
             const error = new Error('Could not find post.')
             error.statusCode = 404
@@ -56,25 +63,28 @@ export const updateProfile = (req, res, next) => {
             error.statusCode = 403
             throw error
         }
-        //Update the user
-        user.bio = currUser.bio
-        user.status = currUser.status
-        user.profileImageUrl = currUser.profileImageUrl
-        return user.save()
-    })
-    .then(result => {
-        res.status(200)
-        .json({
+        // Update the user
+        user.firstName = firstName
+        user.lastName = lastName
+        user.phone = phone
+        user.email = email
+        user.bio = bio
+        user.status = status
+        user.profileImageUrl = profileImageUrl
+
+        const result = await user.save()
+
+        res.status(200).json({
             message: 'User profile updated.',
             user: result
         })
-    })
-    .catch(err => {
+
+    } catch (err) {
         if(!err.statusCode) {
             err.statusCode = 500
         }
         next(err)
-    })
+    }    
 }
 
 export const getFollowings = async (req, res, next) => {
