@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import store from '../store/index'
+// import store from '../store/index'
 
 // Components
 import Login from '../views/Login'
@@ -89,7 +89,7 @@ router.beforeEach((to, from, next) => {
   // Check to see if the route requires the user to be authenticated
   if (to.matched.some(route => route.meta.auth)) {
     // If there is no token, redirect to login
-    if (!store.getters.token) {
+    if (!localStorage.getItem('idToken')) {
       next({
         path: '/login',
         params: { nextUrl: to.fullPath }

@@ -23,7 +23,8 @@ export const postStore = {
       // Fetch all posts in database
       axios.get(`http://localhost:3000/feed/posts/?page=${page}`, {
         headers: {
-          Authorization: `Bearer ${this.$store.state.idToken}`
+          Authorization: `Bearer ${this.$store.state.idToken}`,
+          userId: `User ${this.$store.state.userId}`
         }
       })
         .then(res => {

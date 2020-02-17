@@ -5,7 +5,7 @@
       @logout="logout()"
     />
     <v-content>
-      {{ this.$store.state }}
+      {{ this.$store.getters.token }}
       <router-view
       :token="idToken"
       :authUser="userId"
@@ -35,6 +35,9 @@ export default {
     idToken: null,
     userId: null
   }),
+  created () {
+    this.$store.dispatch('tryAutoLogin')
+  },
   computed: {
     auth () {
       return this.$store.getters.token ? this.$store.getters.token : false

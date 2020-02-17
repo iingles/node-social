@@ -7,22 +7,24 @@ import { sock } from '../socket'
 
 import { Post } from '../models/Post'
 import { User } from '../models/User'
-import { isObject } from 'util'
 
 
 export const getAllPosts = async (req, res, next) => {
     // Pagination
+    
+    const userId = req.headers.userId
     const currentPage = req.query.page || 1
     const perPage = 12
-    let totalItems;
-    
+
     try {
-        const totalItems = await Post.find().countDocuments()
-        const posts = await Post.find()
-        .populate('creator')
+        const user = await User.findById(userId)
+        .populate('posts')
         .sort({ createdAt: -1 })
         .skip((currentPage - 1 ) * perPage)
         .limit(perPage)
+
+        const posts = user.posts
+        const totalItems = user.posts.length
         
         res.status(200).json({
             message: 'Fetched Posts Successfully',
