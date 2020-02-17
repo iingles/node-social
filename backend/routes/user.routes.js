@@ -9,10 +9,22 @@ import { getProfile, updateProfile, updateFollowings, getFollowings } from '../c
 
 export const userRouter = Router()
 
+/*
+    Route: user/profile
+*/
+
 userRouter.get('/profile/:userId', isAuth, getProfile)
 
 userRouter.put('/profile/update/:userId', isAuth, updateProfile)
 
+/*
+    Route: user/getFollowings/:id
+*/
+
 userRouter.get('/getFollowings/:id', isAuth, getFollowings)
+
+/*
+    Route: user/profile/updateFollowers
+*/
 
 userRouter.patch('/profile/updateFollowers', isAuth, updateFollowings)

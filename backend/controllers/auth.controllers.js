@@ -7,7 +7,7 @@ import { User } from '../models/User'
 
 export const putSignUp = (req, res, next) => {
     const errors = validationResult(req)
-
+    
     // Error handling
     if(!errors.isEmpty()) {
         const error = new Error('Validation failed.')
@@ -48,15 +48,16 @@ export const putSignUp = (req, res, next) => {
 }
 
 export const postLogin = (req, res, next) => {
+
     const email = req.body.email
     const password = req.body.password
     let loadedUser
-
+    
     // Check to see if the email exists
     User.findOne({email: email})
         .then(user => {
             if(!user) {
-                // If the email doesn't exist, throw an error
+                // If the email doesn't exist, throw an error                
                 const error = new Error('A user with this email could not be found.')
                 error.statusCode = 401
                 throw error

@@ -87,35 +87,6 @@ export default {
       eventData: {}
     }
   },
-  created () {
-    let vm = this
-    let page = 1
-    // For now, grab all posts in database
-    fetch(`http://localhost:3000/feed/posts/?page=${page}`, {
-      headers: {
-        Authorization: `Bearer ${vm.token}`
-      }
-    })
-      .then(res => {
-        return res.json()
-      })
-      .then(resData => {
-        if (resData.message === 'Not Authenticated') {
-          return resData.message
-        }
-        vm.posts = resData.posts
-      })
-      .catch(err => {
-        console.log(err)
-      })
-    // Set up socket.io
-    const socket = openSocket('http://localhost:3000')
-    socket.on('posts', data => {
-      if (data.action === 'create') {
-        vm.posts.unshift(data.post)
-      }
-    })
-  },
   methods: {
     addPost (data) {
       let vm = this

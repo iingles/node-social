@@ -86,29 +86,12 @@ export default {
       event.preventDefault()
 
       let vm = this
-
-      fetch('http://localhost:3000/auth/signup', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          email: vm.email,
-          firstName: vm.firstName,
-          lastName: vm.lastName,
-          password: vm.password
-        })
+      this.$store.dispatch('signup', {
+        firstName: vm.firstName,
+        lastName: vm.lastName,
+        email: vm.email,
+        password: vm.password
       })
-        .then(res => {
-          if (res.status === 422) {
-            throw new Error(
-              "Validation failed.  Make sure that email address isn't used yet!"
-            )
-          } else {
-            // if successful, redirect to login screen
-            this.$router.push('/login')
-          }
-        })
     }
   }
 }

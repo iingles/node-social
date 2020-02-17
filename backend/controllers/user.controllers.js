@@ -2,7 +2,7 @@ import { User } from '../models/User'
 
 export const getProfile = async (req, res, next) => {
     const userId = req.params.userId
-    
+
     User.findById(userId)
         .populate('posts')
         .then(user => { 

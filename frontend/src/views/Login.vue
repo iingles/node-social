@@ -55,7 +55,6 @@ export default {
       ],
       passwordRules: [
         v => !!v || 'Password is required',
-        v => !/[;,/"']/.test(v) || 'Password cannot contain semicolons, commas, or quotes.',
         v => v.length >= 10 || 'Password must be 10 or more characters and contain at least one number.',
         v => /[0-9]/.test(v) || 'Password must contain at least one number.'
       ]
@@ -67,36 +66,10 @@ export default {
 
       event.preventDefault()
       // Set the local login state to true here
-
-      fetch('http://localhost:3000/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          email: vm.email,
-          password: vm.password
-        })
+      this.$store.dispatch('login', {
+        email: vm.email,
+        password: vm.password
       })
-        .then(res => {
-          if (res.status === 422) {
-            throw new Error('Validation failed.')
-          }
-          if (res.status !== 200 && res.status !== 201) {
-            console.log('Error!')
-            throw new Error('Could not authenticate you!')
-          }
-          return res.json()
-        })
-        .then(resData => {
-          localStorage.setItem('token', resData.token)
-          localStorage.setItem('userId', resData.userId)
-          // If successful, redirect to feed
-          location.replace('/feed')
-        })
-        .catch(err => {
-          console.log(err)
-        })
     }
   }
 }

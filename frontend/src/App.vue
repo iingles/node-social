@@ -1,18 +1,19 @@
 <template>
   <v-app>
     <Header
-      v-if="authToken"
+      v-if="auth"
       @logout="logout()"
     />
     <v-content>
+      {{ this.$store.state }}
       <router-view
-      :token="authToken"
-      :authUser="authUser"
+      :token="idToken"
+      :authUser="userId"
       :key="$route.fullPath"
       ></router-view>
     </v-content>
     <Footer
-      v-if="authToken"
+      v-if="auth"
     />
   </v-app>
 </template>
@@ -31,15 +32,17 @@ export default {
   },
 
   data: () => ({
-    authToken: localStorage.getItem('token'),
-    authUser: localStorage.getItem('userId')
+    idToken: null,
+    userId: null
   }),
+  computed: {
+    auth () {
+      return this.$store.getters.token ? this.$store.getters.token : false
+    }
+  },
   methods: {
     logout () {
-      this.authToken = ''
-      localStorage.removeItem('token')
-      localStorage.removeItem('userId')
-      this.$router.push('/login').catch(err => { throw err })
+      this.$store.dispatch('logout')
     }
   }
 }

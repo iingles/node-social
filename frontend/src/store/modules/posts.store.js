@@ -1,37 +1,53 @@
+import axios from 'axios'
+import openSocket from 'socket.io-client'
+
 export const postStore = {
   state: {
     posts: []
   },
   getters: {
-    getAllPosts (state) {
-      return state.posts
-    },
-    getOnePost (state, postId) {
-      let postIndex = state.posts.findIndex(p => p._id === postId)
-      return state.posts[postIndex]
-    }
+
   },
   mutations: {
-    INIT_POSTS (state, posts) {
-      state.posts.push(posts)
+    setPosts (state, posts) {
+      state.posts = posts
     },
-    CREATE_POST (state, post) {
-      state.posts.push(post)
-    },
-    UPDATE_POST (state, postId, updatedPostData) {
-      // Find a post at the given index and update the data
-      let postIndex = state.posts.findIndex(p => p._id === postId)
-      state.posts[postIndex] = updatedPostData
-    },
-    DELETE_POST (state, postId) {
-      // Find a post at the given index and remove it
-      let postIndex = state.posts.findIndex(p => p._id === postId)
-      if (postIndex > -1) {
-        state.posts.splice(postIndex, 1)
-      }
+    newPost (state, post) {
+      state.posts.unshift(post)
     }
+
   },
   actions: {
-
+    fetchAllPosts ({ commit }, postData) {
+      let page = 1
+      // Fetch all posts in database
+      axios.get(`http://localhost:3000/feed/posts/?page=${page}`, {
+        headers: {
+          Authorization: `Bearer ${this.$store.state.idToken}`
+        }
+      })
+        .then(res => {
+          return res.json()
+        })
+        .then(resData => {
+          if (resData.message === 'Not Authenticated') {
+            return resData.message
+          }
+          commit('setPosts', {
+            posts: resData.posts
+          })
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      // Set up socket.io
+      const socket = openSocket('http://localhost:3000')
+      // Use socketio to update posts in real time
+      socket.on('posts', data => {
+        if (data.action === 'create') {
+          commit('newPost', { post: data.post })
+        }
+      })
+    }
   }
 }
