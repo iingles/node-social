@@ -11,7 +11,7 @@ export const userRouter = Router()
 
 userRouter.get('/profile/:userId', isAuth, getProfile)
 
-userRouter.put('/profile/:userId', isAuth, updateProfile)
+userRouter.put('/profile/update/:userId', isAuth, updateProfile)
 
 userRouter.get('/getFollowings/:id', isAuth, getFollowings)
 

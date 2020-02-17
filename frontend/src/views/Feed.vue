@@ -7,7 +7,7 @@
           <section>
             <!-- Left Column -->
             <h1>Recent Media</h1>
-            <template v-if="posts">
+            <template v-if="posts.length != 0">
               <div v-for="post in posts" :key="post._id">
                 {{ post._id }}
               </div>

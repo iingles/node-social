@@ -50,6 +50,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "follows" */ '../views/Follows.vue')
   },
   {
+    path: '/settings',
+    name: 'settings',
+    component: () => import(/* webpackChunkName: "follows" */ '../views/Settings.vue')
+  },
+  {
     path: '/signup',
     name: 'signup',
     meta: {

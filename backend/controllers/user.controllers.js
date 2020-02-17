@@ -39,14 +39,21 @@ export const getProfile = async (req, res, next) => {
 }
 
 export const updateProfile = async (req, res, next) => {
+    console.log(req)
+
+    //This might not be the most efficient way to do this...
     const userId = req.params.userId
     let firstName = req.body.firstName
     let lastName = req.body.lastName
     let phone = req.body.phone
     let email = req.body.email
     let status = req.user.status
-    let bio = req.user.bio
+    let bio = req.user.bio    
     let profileImageUrl = req.body.profileImageUrl
+
+    if (req.file) {
+        profileImageUrl = req.file.path
+    }
     
     try {
         const user = await User.findById(userId)
@@ -143,17 +150,23 @@ export const updateFollowings = async (req, res, next) => {
                 same ID
             */
             if(!user.following.includes(followerId)) {
+            
                 //Update both the user and the followed user's followings
                 user.following.push(followerId)
-                followedUser.followers.push(followerId)
+                if(!followedUser.followers.includes(userId)) {
+                    followedUser.followers.push(userId)
+                }
+                
                 message = `User is now following ${followerId}`
             } else {
+                console.log("already following that user")
                 message = `User is already following ${followerId}`
             }
         } else {
             /*
                 If the option was to delete the user, remove 
                 the userId from the followers
+                
             */
             const followIdx = user.following.indexOf(followerId)
             user.following.splice(followIdx, 1)

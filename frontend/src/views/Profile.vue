@@ -3,6 +3,13 @@
         <v-row align="center">
             <v-row class="user-banner">
                 <v-col class="d-flex flex-column justify-center align-center">
+                  <input
+                  type="file"
+                  ref="profileImage"
+                  style="display: none"
+                  accept="image/png, image/jpeg, image/jpg"
+                  name="profileImage"
+                  @change="updateProfile">
                   <v-img
                   :src="user.profileImageUrl"
                   max-width=200
@@ -10,7 +17,7 @@
                   >
                   <v-btn
                   icon
-                  @click="updateProfile('profile-picture')"
+                   @click="$refs.profileImage.click()"
                   class="profile-action"
                   v-if="this.$route.params.id === localStorage.userId"
                   ><v-icon>mdi-camera</v-icon>
@@ -24,10 +31,23 @@
                     >
                     <v-icon>mdi-account-plus</v-icon>
                   </v-btn>
+                  <v-btn
+                    icon
+                    v-if="localStorage.userId != this.$route.params.id"
+                    @click="updateFollower(localStorage.userId, 'delete')"
+                    >
+                    <v-icon>mdi-account-minus</v-icon>
+                  </v-btn>
                 </v-col>
+                <input
+                type="file"
+                ref="backgroundImage"
+                style="display: none"
+                accept="image/png, image/jpeg, image/jpg"
+                >
                 <v-btn
                  icon
-                 @click="updateProfile('background-picture')"
+                 @click="$refs.backgroundImage.click()"
                  class="profile-action"
                  v-if="this.$route.params.id === localStorage.userId"
                  ><v-icon>mdi-camera</v-icon>
@@ -94,11 +114,13 @@ export default {
         phone: '',
         status: '',
         bio: '',
+        backgroundImageUrl: '',
         profileImageUrl: '',
         followers: [],
         following: [],
         posts: []
       },
+      selectedFile: null,
       localStorage
     }
   },
@@ -126,8 +148,36 @@ export default {
       })
   },
   methods: {
-    updateProfile (proSection) {
-      console.log(proSection)
+    updateProfile (evt) {
+      let userId = this.$route.params.id
+      let url = `http://localhost:3000/user/profile/update/${userId}`
+      let method = 'PUT'
+      let vm = this
+
+      vm.selectedFile = evt.target.files[0]
+
+      fetch(url, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${vm.token}`
+        },
+        body: JSON.stringify({
+          firstName: vm.firstName,
+          lastName: vm.lastName,
+          phone: vm.phone,
+          status: vm.status,
+          bio: vm.bio,
+          backgroundImageUrl: vm.backgroundImageUrl,
+          profileImageUrl: vm.selectedFile
+        })
+      })
+        .then(result => {
+          console.log(result)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     updateFollower (userId, opt) {
       const followerId = this.$route.params.id

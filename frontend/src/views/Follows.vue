@@ -3,11 +3,11 @@
         <v-row>
             <v-spacer></v-spacer>
             <v-col cols="12" xs="12" lg="6">
-                <v-tabs class="tabs">
+                 <v-tabs class="tabs">
                     <v-tab key="Followers">Followers</v-tab>
                     <v-tab key="Following">Following</v-tab>
                     <v-tab-item key="Followers">
-                        <template v-if="!followers == 'undefined' || !followers.length == 0">
+                        <template v-if="followers !== 'undefined' || followers.length !== 0">
                             <v-card
                             :to="`/profile/${a._id}`"
                             v-for="a in followers" :key="a._id"

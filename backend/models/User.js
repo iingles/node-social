@@ -46,6 +46,9 @@ const userSchema = new Schema({
             ref: 'User'
         }
     ],
+    backgroundImageUrl: {
+        type: String
+    },
     profileImageUrl: {
         type: String,
         default: 'http://localhost:3000/images/user-images/default.png'
