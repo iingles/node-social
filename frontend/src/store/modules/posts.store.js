@@ -8,6 +8,10 @@ export const postStore = {
   getters: {
     posts (state) {
       return state.posts
+    },
+    post (state, postId) {
+      const post = state.posts.includes(postId)
+      return post
     }
   },
   mutations: {
@@ -21,13 +25,14 @@ export const postStore = {
   actions: {
     getAllUserPosts ({ commit }, userId) {
       let page = 1
-      const url = `http://localhost:3000/feed/${userId}/posts/?page=${page}`
-      const headers = {
+      let method = 'get'
+      let url = `http://localhost:3000/feed/${userId}/posts/?page=${page}`
+      let headers = {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
       // Fetch all user posts in database
       axios({
-        method: 'get',
+        method,
         url,
         headers
       })
@@ -53,6 +58,36 @@ export const postStore = {
           commit('newPost', { post: data.post })
         }
       })
+    },
+    // Save a post to the database
+    savePost ({ commit }, postData) {
+      let url = 'http://localhost:3000/feed/posts'
+      let method = 'POST'
+      let headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('idToken')}`
+      }
+
+      axios({
+        method,
+        url,
+        headers,
+        data: {
+          title: postData.title,
+          content: postData.content,
+          creator: postData.creator
+        }
+      })
+        .then(res => {
+          if (res.status !== 200 && res.status !== 201) {
+            throw new Error('Creating or Editing a post failed!')
+          }
+
+          return res
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 }

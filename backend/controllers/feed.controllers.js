@@ -9,42 +9,42 @@ import { Post } from '../models/Post'
 import { User } from '../models/User'
 
 
-export const getAllPosts = async (req, res, next) => {
-    // Pagination
+// export const getAllPosts = async (req, res, next) => {
+//     // Pagination
     
-    const userId = req.headers.userId
-    const currentPage = req.query.page || 1
-    const perPage = 12
+//     const userId = req.headers.userId
+//     const currentPage = req.query.page || 1
+//     const perPage = 12
 
-    try {
-        const user = await User.findById(userId)
-        .populate({
-            path: 'posts',
-            model: 'Post',
-            populate: {
-                path: 'creator',
-                model: 'User'
-            }
-        })
-        .sort({ createdAt: -1 })
-        .skip((currentPage - 1 ) * perPage)
-        .limit(perPage)
+//     try {
+//         const user = await User.findById(userId)
+//         .populate({
+//             path: 'posts',
+//             model: 'Post',
+//             populate: {
+//                 path: 'creator',
+//                 model: 'User'
+//             }
+//         })
+//         .sort({ createdAt: -1 })
+//         .skip((currentPage - 1 ) * perPage)
+//         .limit(perPage)
 
-        const posts = user.posts
-        const totalItems = user.posts.length
+//         const posts = user.posts
+//         const totalItems = user.posts.length
 
-        res.status(200).json({
-            message: 'Fetched Posts Successfully',
-            posts,
-            totalItems
-        })
-    } catch (err) {
-        if(!err.statusCode) {
-            err.statusCode = 500
-        }
-        next(err)
-    }
-}
+//         res.status(200).json({
+//             message: 'Fetched Posts Successfully',
+//             posts,
+//             totalItems
+//         })
+//     } catch (err) {
+//         if(!err.statusCode) {
+//             err.statusCode = 500
+//         }
+//         next(err)
+//     }
+// }
 
 export const getAllUserPosts = async (req, res, next) => {
     // Pagination
@@ -53,16 +53,17 @@ export const getAllUserPosts = async (req, res, next) => {
     const perPage = 12
 
     try {
+       
         const user = await User.findById(userId)
-        .populate({ 
-            path: 'posts',
-            model: 'Post',
-            populate: {
-                path: 'creator',
-                model: 'User'
-            }
-        })
         .sort({ createdAt: -1 })
+        .populate({ 
+                path: 'posts',
+                model: 'Post',
+                populate: {
+                    path: 'creator',
+                    model: 'User'
+                }
+            })
         .skip((currentPage - 1 ) * perPage)
         .limit(perPage)
 
@@ -81,54 +82,55 @@ export const getAllUserPosts = async (req, res, next) => {
     }
 }
 
-export const savePost = (req, res, next) => {
+export const savePost = async (req, res, next) => {
     const title = req.body.title
     const content = req.body.content
-
-    let creator 
-
     const post = new Post({
         title: title,
         content: content,
         creator: req.userId
     })
+    
+    let creator 
 
-    post
-    .save()
-    .then(result => {
-        return User.findById(req.userId)
-    }).then(user => {
+    try {
+        const newPost = await post.save()
+        const user = await User.findById(req.userId)
+
         creator = user
         user.posts.push(post)
-        sock.getIo().emit('posts', { 
+
+        sock.getIo().emit('posts', {
             action: 'create', 
             post: {
                 ...post._doc, 
-                creator: { 
-                _id: req.userId, 
-                firstName: user.firstName, 
-                lastName: user.lastName,
-                profileImageUrl: user.profileImageUrl
+                    creator: { 
+                    _id: req.userId, 
+                    firstName: user.firstName, 
+                    lastName: user.lastName,
+                    profileImageUrl: user.profileImageUrl
+                }
             }
-        } 
         })
-        return user.save()
-    }).then(result =>{
+
+        const result = await user.save()
+
         res.status(201).json({
             message: 'Post created successfully!',
-            post: post,
+            user: result,
+            post: newPost,
             creator: { 
                 _id: creator._id, 
                 name: creator.firstName 
             }
         });
-    })
-    .catch(err => {
+
+    } catch (err) {
         if(!err.statusCode) {
             err.statusCode = 500
         }
         next(err)
-    })  
+    }
 }
 
 export const getOnePost = async (req, res, next) => {

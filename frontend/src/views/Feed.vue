@@ -93,43 +93,39 @@ export default {
   beforeCreate () {
     this.$store.dispatch('getAllUserPosts', localStorage.getItem('userId'))
   },
+  mounted () {
+    // const socket = openSocket('http://localhost:3000')
+    // socket.on('posts', data => {
+    //   if (data.action === 'create') {
+    //     this.savePost(data.post)
+    //   } else if (data.action === 'update') {
+    //     this.updatePost(data.post)
+    //   } else if (data.action === 'delete') {
+    //     this.loadPosts()
+    //   }
+    // })
+  },
   methods: {
-    addPost (data) {
+    // addPost (data) {
+    //   let vm = this
+    //   const updatedPosts = [...vm.posts]
+    //   return { posts: updatedPosts }
+    // },
+    // View a single post
+    savePost (event) {
       let vm = this
-      const updatedPosts = [...vm.posts]
-      return { posts: updatedPosts }
-    },
-    // Save a post to the database
-    savePost (postData) {
-      let vm = this
-      let url = 'http://localhost:3000/feed/posts'
-      let method = 'POST'
+      this.$store.dispatch('savePost', event)
       vm.singlePostModal = false
 
-      fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${vm.token}`
-        },
-        body: JSON.stringify({
-          title: postData.title,
-          content: postData.content,
-          creator: postData.creator
-        })
-
-      })
-        .then(res => {
-          if (res.status !== 200 && res.status !== 201) {
-            throw new Error('Creating or Editing a post failed!')
-          }
-          return res.json()
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      // Set up socket.io
+      // const socket = openSocket('http://localhost:3000')
+      // // Use socketio to update posts in real time
+      // socket.on('posts', data => {
+      //   if (data.action === 'create') {
+      //     commit('newPost', { post: data.post })
+      //   }
+      // })
     },
-    // View a single post
     viewPost (postId) {
       let vm = this
       let url = `http://localhost:3000/feed/post/${postId}`

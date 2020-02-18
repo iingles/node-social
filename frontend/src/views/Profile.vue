@@ -89,6 +89,7 @@
               >
               <SinglePost
                 :post="post"
+                :token="token"
               />
             </v-card>
             </v-col>
@@ -124,7 +125,7 @@ export default {
       localStorage
     }
   },
-  created () {
+  beforeCreate () {
     let vm = this
 
     let userId = this.$route.params.id

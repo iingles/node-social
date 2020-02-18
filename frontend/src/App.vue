@@ -6,7 +6,7 @@
     />
     <v-content>
       <router-view
-      :token="idToken"
+      :token="token"
       :authUser="userId"
       :key="$route.fullPath"
       ></router-view>
@@ -20,6 +20,7 @@
 <script>
 import Header from './components/shared/Header'
 import Footer from './components/shared/Footer'
+import { mapGetters } from 'vuex'
 
 export default {
 
@@ -31,13 +32,12 @@ export default {
   },
 
   data: () => ({
-    idToken: null,
-    userId: null
   }),
   created () {
     this.$store.dispatch('tryAutoLogin')
   },
   computed: {
+    ...mapGetters(['token', 'userId']),
     auth () {
       return this.$store.getters.token ? this.$store.getters.token : false
     }

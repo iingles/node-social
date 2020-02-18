@@ -19,6 +19,14 @@ const postSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
+    },
+    stats: {
+        likes: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User',
+            }
+        ]
     }
     //Pass an object as a second argument to the Schema constructor
 }, {
