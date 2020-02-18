@@ -18,14 +18,56 @@ export const getAllPosts = async (req, res, next) => {
 
     try {
         const user = await User.findById(userId)
-        .populate('posts')
+        .populate({
+            path: 'posts',
+            model: 'Post',
+            populate: {
+                path: 'creator',
+                model: 'User'
+            }
+        })
         .sort({ createdAt: -1 })
         .skip((currentPage - 1 ) * perPage)
         .limit(perPage)
 
         const posts = user.posts
         const totalItems = user.posts.length
-        
+
+        res.status(200).json({
+            message: 'Fetched Posts Successfully',
+            posts,
+            totalItems
+        })
+    } catch (err) {
+        if(!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
+    }
+}
+
+export const getAllUserPosts = async (req, res, next) => {
+    // Pagination
+    const userId = req.params.id
+    const currentPage = req.query.page || 1
+    const perPage = 12
+
+    try {
+        const user = await User.findById(userId)
+        .populate({ 
+            path: 'posts',
+            model: 'Post',
+            populate: {
+                path: 'creator',
+                model: 'User'
+            }
+        })
+        .sort({ createdAt: -1 })
+        .skip((currentPage - 1 ) * perPage)
+        .limit(perPage)
+
+        const posts = user.posts
+        const totalItems = user.posts.length
         res.status(200).json({
             message: 'Fetched Posts Successfully',
             posts,

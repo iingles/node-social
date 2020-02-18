@@ -7,8 +7,8 @@
           <section>
             <!-- Left Column -->
             <h1>Recent Media</h1>
-            <template v-if="posts.length != 0">
-              <div v-for="post in posts" :key="post._id">
+            <template v-if="posts">
+              <div v-for="post in posts.posts" :key="post._id">
                 {{ post._id }}
               </div>
             </template>
@@ -26,7 +26,7 @@
             outlined
             tile
             ripple
-            v-for="post in posts"
+            v-for="post in posts.posts"
             :key="post._id">
               <SinglePost
                 :authUser="authUser"
@@ -67,6 +67,7 @@
 import PostModal from '../components/posts/PostModal'
 import SinglePost from '../components/posts/SinglePost'
 import openSocket from 'socket.io-client'
+import { mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -79,13 +80,18 @@ export default {
   },
   data: () => {
     return {
-      posts: [],
       singlePostModal: false,
       fetchedPostData: {},
       editMode: false,
       viewMode: false,
       eventData: {}
     }
+  },
+  computed: {
+    ...mapGetters([ 'posts' ])
+  },
+  beforeCreate () {
+    this.$store.dispatch('getAllUserPosts', localStorage.getItem('userId'))
   },
   methods: {
     addPost (data) {

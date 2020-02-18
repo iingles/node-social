@@ -13,6 +13,9 @@ export const auth = {
     },
     token (state) {
       return state.idToken
+    },
+    userId (state) {
+      return state.userId
     }
   },
   mutations: {

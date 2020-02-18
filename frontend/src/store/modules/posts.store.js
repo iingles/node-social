@@ -3,10 +3,12 @@ import openSocket from 'socket.io-client'
 
 export const postStore = {
   state: {
-    posts: []
+    posts: null
   },
   getters: {
-
+    posts (state) {
+      return state.posts
+    }
   },
   mutations: {
     setPosts (state, posts) {
@@ -15,20 +17,22 @@ export const postStore = {
     newPost (state, post) {
       state.posts.unshift(post)
     }
-
   },
   actions: {
-    fetchAllPosts ({ commit }, postData) {
+    getAllUserPosts ({ commit }, userId) {
       let page = 1
-      // Fetch all posts in database
-      axios.get(`http://localhost:3000/feed/posts/?page=${page}`, {
-        headers: {
-          Authorization: `Bearer ${this.$store.state.idToken}`,
-          userId: `User ${this.$store.state.userId}`
-        }
+      const url = `http://localhost:3000/feed/${userId}/posts/?page=${page}`
+      const headers = {
+        Authorization: `Bearer ${localStorage.getItem('idToken')}`
+      }
+      // Fetch all user posts in database
+      axios({
+        method: 'get',
+        url,
+        headers
       })
         .then(res => {
-          return res.json()
+          return res.data
         })
         .then(resData => {
           if (resData.message === 'Not Authenticated') {

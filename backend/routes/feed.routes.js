@@ -5,7 +5,7 @@ import { body } from 'express-validator'
 import { isAuth } from '../middleware/is-auth'
 
 // Controllers
-import { getAllPosts, savePost, getOnePost, updatePost, deleteOnePost } from '../controllers/feed.controllers'
+import { getAllUserPosts, savePost, getOnePost, updatePost, deleteOnePost } from '../controllers/feed.controllers'
 
 export const feedRouter = Router()
 
@@ -14,7 +14,7 @@ export const feedRouter = Router()
 */
 
 // Get all posts
-feedRouter.get('/posts', isAuth, getAllPosts)
+feedRouter.get('/:id/posts', isAuth, getAllUserPosts)
 
 // Save a new post
 feedRouter.post('/posts', 

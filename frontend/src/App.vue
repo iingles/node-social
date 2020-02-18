@@ -5,7 +5,6 @@
       @logout="logout()"
     />
     <v-content>
-      {{ this.$store.getters.token }}
       <router-view
       :token="idToken"
       :authUser="userId"
