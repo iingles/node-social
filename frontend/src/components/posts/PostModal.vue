@@ -8,8 +8,14 @@
             </v-card-title>
             <v-card-text>
               <v-form>
-                <v-text-field label="title" name="title" v-model="postData.title" ></v-text-field>
-                <v-textarea label="content" name="content" v-model="postData.content"></v-textarea>
+                <template v-if="viewMode">
+                  <v-text-field disabled label="title" name="title" v-model="postData.title" ></v-text-field>
+                  <v-textarea disabled label="content" name="content" v-model="postData.content"></v-textarea>
+                </template>
+                <template v-if="editMode && !viewMode">
+                  <v-text-field label="title" name="title" v-model="postData.title" ></v-text-field>
+                  <v-textarea label="content" name="content" v-model="postData.content"></v-textarea>
+                </template>
               </v-form>
             </v-card-text>
             <v-card-actions>
