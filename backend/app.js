@@ -18,7 +18,7 @@ import { sock } from './socket'
 
 //App Constants
 const app = express()
-const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}Ud56ODrjoetECfUE@cluster0-rxesh.mongodb.net/${MONGO_DEFAULT_DB}`
+const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}Ud56ODrjoetECfUE@cluster0-rxesh.mongodb.net/${process.env.MONGO_DEFAULT_DB}`
 const PORT = process.env.PORT || 3000
 
 //Uploading files with Multer
