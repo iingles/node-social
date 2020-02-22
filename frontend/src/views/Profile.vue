@@ -1,8 +1,10 @@
 <template>
-   <v-container>
+   <v-container fluid class="ma-0 pa-0">
         <v-row align="center">
             <v-row class="user-banner">
-                <v-col class="d-flex flex-column justify-center align-center">
+                <v-col
+                class="d-flex flex-column justify-center align-center pt-10 pl-10 pr-10"
+                >
                   <input
                   type="file"
                   ref="profileImage"
@@ -55,7 +57,7 @@
             </v-row>
         </v-row>
         <v-row>
-          <v-col cols="12" xs="12" lg="4">
+          <v-col cols="12" xs="12" lg="3" class="pa-10">
               <p><router-link :to="`/user/${this.$route.params.id}/follows/`">Following: {{ user.following.length }}</router-link></p>
               <p><router-link :to="`/user/${this.$route.params.id}/follows/`">Followers:  {{ user.followers.length }}</router-link></p>
               <h1>Status: </h1>
@@ -77,7 +79,7 @@
               ><v-icon>mdi-pencil</v-icon>
               </v-btn>
             </v-col>
-            <v-col cols="12" xs="12" lg="8">
+            <v-col cols="12" xs="12" lg="5" class="pa-10">
               <h1>Posts</h1>
               <v-card
                 class="post"
@@ -92,6 +94,7 @@
               />
             </v-card>
             </v-col>
+            <v-spacer></v-spacer>
         </v-row>
     </v-container>
 </template>
