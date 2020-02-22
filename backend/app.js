@@ -13,6 +13,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import cors from 'cors'
+import helmet from 'helmet'
 import multer from 'multer'
 import { sock } from './socket'
 
@@ -20,6 +21,7 @@ import { sock } from './socket'
 const app = express()
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-rxesh.mongodb.net/${process.env.MONGO_DEFAULT_DB}`
 const PORT = process.env.PORT || 3000
+
 
 //Uploading files with Multer
 const fileStorage = multer.diskStorage({
@@ -50,6 +52,9 @@ import { feedRouter } from './routes/feed.routes'
 import { authRouter } from './routes/auth.routes'
 import { userRouter } from './routes/user.routes'
 // import { Socket } from 'dgram' //where did this come from??
+
+//Helmet
+app.use(helmet())
 
 //Cross Origin middleware
 app.use(cors())
