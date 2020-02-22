@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { postStore } from './modules/posts.store'
 
 Vue.use(Vuex)
 
