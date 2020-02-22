@@ -4,11 +4,11 @@
             <v-card-title>
               <h1 v-if="viewMode && !editMode">View Post</h1>
               <h1 v-if="editMode && !viewMode">Edit Post</h1>
-              <h1 v-if="!editMode && !viewMode">New Post</h1>
+              <h1 v-if="!editMode && !viewMode && newPost">New Post</h1>
             </v-card-title>
             <v-card-text>
               <v-form>
-                <template v-if="viewMode">
+                <template v-if="viewMode && !newPost && !editMode">
                   <v-text-field disabled label="title" name="title" v-model="postData.title" ></v-text-field>
                   <v-textarea disabled label="content" name="content" v-model="postData.content"></v-textarea>
                 </template>
@@ -20,7 +20,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-btn @click="cancelPost()">cancel</v-btn>
-                <v-btn v-if="!editMode && viewMode" @click="()=>{this.$emit('edit')}">edit</v-btn>
+                <v-btn v-if="!editMode && viewMode && authUser === postData.creator" @click="()=>{this.$emit('edit')}">edit</v-btn>
                 <v-btn v-if="!viewMode && postData.content || editMode && postData.content" @click="acceptPost(postData)">accept</v-btn>
             </v-card-actions>
         </v-card>
@@ -34,7 +34,8 @@ export default {
     editMode: Boolean,
     fetchedPostData: Object,
     viewMode: Boolean,
-    newPost: Boolean
+    newPost: Boolean,
+    authUser: String
   },
   data: () => {
     return {

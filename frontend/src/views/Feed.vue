@@ -56,6 +56,7 @@
         :editMode="this.editMode"
         :viewMode="this.viewMode"
         :newPost="this.newPost"
+        :authUser="this.authUser"
         @accept="savePost($event)"
         @edit="editMode=true; viewMode=false"
         @editedPost="updatePost($event)"
@@ -130,6 +131,7 @@ export default {
       let url = 'http://localhost:3000/feed/posts'
       let method = 'POST'
       vm.singlePostModal = false
+      vm.newPost = false
 
       fetch(url, {
         method,
@@ -180,6 +182,7 @@ export default {
       let url = `http://localhost:3000/feed/post/${postData._id}`
       let method = 'PUT'
       let vm = this
+      vm.editMode = false
 
       fetch(url, {
         method: method,
