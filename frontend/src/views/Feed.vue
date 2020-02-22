@@ -19,7 +19,7 @@
         </v-col>
         <v-col cols="12" xs="12" md="7" sm="12" lg="5" class="order-xs-1 order-sm-1 order-md-1 order-lg-2">
           <!-- Middle column -->
-          <v-btn @click="singlePostModal=true">new post</v-btn>
+          <v-btn @click="singlePostModal=true, newPost=true">new post</v-btn>
           <template v-if="posts">
             <v-card
             class="post"
@@ -55,6 +55,7 @@
         :fetchedPostData="this.fetchedPostData"
         :editMode="this.editMode"
         :viewMode="this.viewMode"
+        :newPost="this.newPost"
         @accept="savePost($event)"
         @edit="editMode=true; viewMode=false"
         @editedPost="updatePost($event)"
@@ -84,6 +85,7 @@ export default {
       fetchedPostData: {},
       editMode: false,
       viewMode: false,
+      newPost: false,
       eventData: {}
     }
   },
@@ -239,10 +241,11 @@ export default {
     cancelModal () {
       // If the modal window is closed, reset everything
       let vm = this
-      vm.singlePostModal = false
       vm.editMode = false
       vm.viewMode = false
+      vm.newPost = false
       vm.fetchedPostData = {}
+      vm.singlePostModal = false
     }
   }
 }

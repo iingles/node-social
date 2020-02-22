@@ -2,8 +2,8 @@
     <v-dialog v-model="dialog">
         <v-card>
             <v-card-title>
-              <h1 v-if="viewMode">View Post</h1>
-              <h1 v-if="editMode">Edit Post</h1>
+              <h1 v-if="viewMode && !editMode">View Post</h1>
+              <h1 v-if="editMode && !viewMode">Edit Post</h1>
               <h1 v-if="!editMode && !viewMode">New Post</h1>
             </v-card-title>
             <v-card-text>
@@ -12,7 +12,7 @@
                   <v-text-field disabled label="title" name="title" v-model="postData.title" ></v-text-field>
                   <v-textarea disabled label="content" name="content" v-model="postData.content"></v-textarea>
                 </template>
-                <template v-if="editMode && !viewMode">
+                <template v-if="editMode && !viewMode || newPost">
                   <v-text-field label="title" name="title" v-model="postData.title" ></v-text-field>
                   <v-textarea label="content" name="content" v-model="postData.content"></v-textarea>
                 </template>
@@ -33,7 +33,8 @@ export default {
     dialog: Boolean,
     editMode: Boolean,
     fetchedPostData: Object,
-    viewMode: Boolean
+    viewMode: Boolean,
+    newPost: Boolean
   },
   data: () => {
     return {
