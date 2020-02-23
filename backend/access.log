@@ -1,0 +1,5 @@
+::1 - - [23/Feb/2020:17:31:54 +0000] "OPTIONS /auth/login HTTP/1.1" 204 0 "http://localhost:8080/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36"
+::1 - - [23/Feb/2020:17:31:55 +0000] "POST /auth/login HTTP/1.1" 200 264 "http://localhost:8080/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36"
+::1 - - [23/Feb/2020:17:31:56 +0000] "OPTIONS /feed/posts/?page=1 HTTP/1.1" 204 0 "http://localhost:8080/feed" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36"
+::1 - - [23/Feb/2020:17:31:57 +0000] "GET /feed/posts/?page=1 HTTP/1.1" 200 - "http://localhost:8080/feed" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36"
+::1 - - [23/Feb/2020:17:31:57 +0000] "GET /images/user-images/default.png HTTP/1.1" 304 - "http://localhost:8080/feed" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36"
