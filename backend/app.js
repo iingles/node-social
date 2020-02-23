@@ -7,6 +7,7 @@
 
 //Core Node modules
 import path from 'path'
+import fs from 'fs'
 
 //NPM packages
 import express from 'express'
@@ -14,14 +15,27 @@ import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import helmet from 'helmet'
+import compression from 'compression'
 import multer from 'multer'
 import { sock } from './socket'
+
+/*
+    Importing morgan the old way because the ES6 way 
+    gives an error; apparently this is an ongoing 
+    issue with morgan. 
+*/
+const morgan = require('morgan')
 
 //App Constants
 const app = express()
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-rxesh.mongodb.net/${process.env.MONGO_DEFAULT_DB}`
 const PORT = process.env.PORT || 3000
 
+//For morgan -- logging to a file instead of the console
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'),
+//Append to the file instead of overwriting it each time
+{ flags: 'a'}
+)
 
 //Uploading files with Multer
 const fileStorage = multer.diskStorage({
@@ -55,6 +69,14 @@ import { userRouter } from './routes/user.routes'
 
 //Helmet
 app.use(helmet())
+
+//Compression
+app.use(compression())
+
+//Morgan (Logging)
+app.use(morgan('combined', {
+    stream: accessLogStream
+}))
 
 //Cross Origin middleware
 app.use(cors())
