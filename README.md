@@ -5,16 +5,18 @@ For this project I followed along with and expanded on the same "posts"/"users" 
 
 - ### Mongoose as my data modeling tool: 
 
-/backend/models
-/backend/controllers
-/backend/routes
-/backend/app.js
+#### Please see the following 4 files:
+
+1. /backend/models
+2. /backend/controllers
+3. /backend/routes
+4. /backend/app.js
 
 - ### Cloud-based MongoDB as my data store:
 
 I used MongoDB Atlas for this project.  The database connection code is in
 
-/backend/app.js
+- /backend/app.js
 
 - ### At least 3 GET endpoints:
 
