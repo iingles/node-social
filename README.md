@@ -28,7 +28,7 @@ I used MongoDB Atlas for this project.  The database connection code is in
 1. GET a user for the user's profile
 2. GET a user's followers/followed users
 
-- ### At least 1 enpoint allowing user to update an item via PUT or PATCH:
+- ### At least 1 endpoint allowing user to update an item via PUT or PATCH:
 
 **/backend/routes/feed.routes.js - 1:**
 1. PUT - To update a post
@@ -58,8 +58,8 @@ As I write this, there are 18 posts and 10 active users.  The posts are all deli
 
 The app, both backend and frontend, is deployed to Heroku:
 
-[frontend](https://iingles-node-social-frontend.herokuapp.com/login)
-[backend](https://iingles-node-social.herokuapp.com/)
+- [Here is the app frontend](https://iingles-node-social-frontend.herokuapp.com/login)
+- [Here is the app backend](https://iingles-node-social.herokuapp.com/)
 
 
 - ### All of your source code will be properly uploaded to GitHub
