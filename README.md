@@ -1,7 +1,7 @@
 # REST API project for DGM 4790
 ## Spring 2020
 ---
-For this project I followed along with and expanded on the same "posts"/"users" functionality that was presented in Max's videos on Udemy (Abstracted to Vue instead of React).  This includes authentication; so a user must log in in order to use this API. Please note that this app is *not* fully functional.
+For this project I followed along with and expanded on the same "posts"/"users" functionality that was presented in Max's videos on Udemy (Abstracted to Vue instead of React).  This includes authentication; so a user must log in in order to use this API. Please note that this app is *not* yet a fully functional social media app; however it does have basic CRUD functionality for the user posts.
 
 - ### Mongoose as my data modeling tool: 
 
