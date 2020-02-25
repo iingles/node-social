@@ -68,7 +68,7 @@ export default {
       event.preventDefault()
       // Set the local login state to true here
 
-      fetch('http://localhost:3000/auth/login', {
+      fetch('https://iingles-node-social.herokuapp.com/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -18,11 +18,12 @@ import helmet from 'helmet'
 import compression from 'compression'
 import multer from 'multer'
 import { sock } from './socket'
+// import csrf from 'csrf'
 
 /*
-    Importing morgan the old way because the ES6 way 
-    gives an error; apparently this is an ongoing 
-    issue with morgan. 
+    Importing morgan (for logging) the old way 
+    because the ES6 way gives an error; apparently 
+    this is an ongoing issue with morgan. 
 */
 const morgan = require('morgan')
 
@@ -104,9 +105,10 @@ app.use('/user', userRouter)
 
 //Get the default connection
 var db = mongoose.connection;
+
 //Bind connection to error event (to get notification of connection errors)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+// db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 app.use((error, req, res, next) => {
     const status = error.statusCode || 500

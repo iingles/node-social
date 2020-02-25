@@ -87,7 +87,7 @@ export default {
 
       let vm = this
 
-      fetch('http://localhost:3000/auth/signup', {
+      fetch('https://iingles-node-social.herokuapp.com/auth/signup', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

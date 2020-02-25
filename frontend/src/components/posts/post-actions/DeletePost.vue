@@ -22,7 +22,7 @@ export default {
     deletePost (postId) {
       let vm = this
       let method = 'DELETE'
-      let url = `http://localhost:3000/feed/post/${postId}`
+      let url = `https://iingles-node-social.herokuapp.com/feed/post/${postId}`
 
       fetch(url, {
         method: method,
@@ -36,7 +36,7 @@ export default {
         .catch(err => {
           console.log(err)
         })
-      const socket = openSocket('http://localhost:3000')
+      const socket = openSocket('https://iingles-node-social.herokuapp.com')
       socket.on('posts', data => {
         if (data.action === 'delete') {
           const updatedPostIndex = vm.posts.findIndex(p => p._id === postId)

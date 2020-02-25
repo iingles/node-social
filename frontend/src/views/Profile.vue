@@ -132,7 +132,7 @@ export default {
 
     let userId = this.$route.params.id
 
-    fetch(`http://localhost:3000/user/profile/${userId}`, {
+    fetch(`https://iingles-node-social.herokuapp.com/user/profile/${userId}`, {
       headers: {
         Authorization: `Bearer ${vm.token}`
       }
@@ -153,7 +153,7 @@ export default {
   methods: {
     updateProfile (evt) {
       let userId = this.$route.params.id
-      let url = `http://localhost:3000/user/profile/update/${userId}`
+      let url = `https://iingles-node-social.herokuapp.com/user/profile/update/${userId}`
       let method = 'PUT'
       let vm = this
 
@@ -184,7 +184,7 @@ export default {
     },
     updateFollower (userId, opt) {
       const followerId = this.$route.params.id
-      const url = `http://localhost:3000/user/profile/updateFollowers`
+      const url = `https://iingles-node-social.herokuapp.com/user/profile/updateFollowers`
       let vm = this
       let method = 'PATCH'
 

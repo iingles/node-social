@@ -94,7 +94,7 @@ export default {
     let vm = this
     let page = 1
     // For now, grab all posts in database
-    fetch(`http://localhost:3000/feed/posts/?page=${page}`, {
+    fetch(`https://iingles-node-social.herokuapp.com/feed/posts/?page=${page}`, {
       headers: {
         Authorization: `Bearer ${vm.token}`
       }
@@ -112,7 +112,7 @@ export default {
         console.log(err)
       })
     // Set up socket.io
-    const socket = openSocket('http://localhost:3000')
+    const socket = openSocket('https://iingles-node-social.herokuapp.com')
     socket.on('posts', data => {
       if (data.action === 'create') {
         vm.posts.unshift(data.post)
@@ -128,7 +128,7 @@ export default {
     // Save a post to the database
     savePost (postData) {
       let vm = this
-      let url = 'http://localhost:3000/feed/posts'
+      let url = 'https://iingles-node-social.herokuapp.com/feed/posts'
       let method = 'POST'
       vm.singlePostModal = false
       vm.newPost = false
@@ -159,7 +159,7 @@ export default {
     // View a single post
     viewPost (postId) {
       let vm = this
-      let url = `http://localhost:3000/feed/post/${postId}`
+      let url = `https://iingles-node-social.herokuapp.com/feed/post/${postId}`
 
       fetch(url, {
         headers: {
@@ -179,7 +179,7 @@ export default {
         })
     },
     updatePost (postData) {
-      let url = `http://localhost:3000/feed/post/${postData._id}`
+      let url = `https://iingles-node-social.herokuapp.com/feed/post/${postData._id}`
       let method = 'PUT'
       let vm = this
       vm.editMode = false
@@ -203,7 +203,7 @@ export default {
           console.log(err + 'failure')
         })
 
-      const socket = openSocket('http://localhost:3000')
+      const socket = openSocket('https://iingles-node-social.herokuapp.com')
       socket.on('posts', data => {
         if (data.action === 'update') {
           const updatedPostIndex = vm.posts.findIndex(p => p._id === postData._id)
@@ -217,7 +217,7 @@ export default {
     deletePost (postId) {
       let vm = this
       let method = 'DELETE'
-      let url = `http://localhost:3000/feed/post/${postId}`
+      let url = `https://iingles-node-social.herokuapp.com/feed/post/${postId}`
 
       fetch(url, {
         method: method,
@@ -231,7 +231,7 @@ export default {
         .catch(err => {
           console.log(err)
         })
-      const socket = openSocket('http://localhost:3000')
+      const socket = openSocket('https://iingles-node-social.herokuapp.com')
       socket.on('posts', data => {
         if (data.action === 'delete') {
           const updatedPostIndex = vm.posts.findIndex(p => p._id === postId)

@@ -51,7 +51,7 @@ const userSchema = new Schema({
     },
     profileImageUrl: {
         type: String,
-        default: 'http://localhost:3000/images/user-images/default.png'
+        default: 'https://iingles-node-social.herokuapp.com/images/user-images/default.png'
     },
     posts: [
         {
