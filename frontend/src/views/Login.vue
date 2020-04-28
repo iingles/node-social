@@ -29,6 +29,13 @@
                         >Submit</v-btn>
                     </v-form>
                 </v-card>
+                <v-select
+                :items="peoples"
+                item-text="firstName"
+                label="Select a Demo User"
+                return-object
+                @input="selectDemo"
+                ></v-select>
                 <p>Don't have an account? <router-link to="/signup">Sign Up</router-link></p>
                 <transition name="fade" mode="out-in">
                     <template v-if="hasErrors">
@@ -42,6 +49,7 @@
 </template>
 
 <script>
+import { people } from '../../data/people'
 
 export default {
   data: () => {
@@ -54,11 +62,22 @@ export default {
         v => !!v || 'email is required'
       ],
       passwordRules: [
-        v => !!v || 'Password is required',
-        v => !/[;,/"']/.test(v) || 'Password cannot contain semicolons, commas, or quotes.',
-        v => v.length >= 10 || 'Password must be 10 or more characters and contain at least one number.',
-        v => /[0-9]/.test(v) || 'Password must contain at least one number.'
-      ]
+        v => !!v || 'Password is required'
+      ],
+      peoples: []
+    }
+  },
+  created () {
+    const vm = this
+
+    for (let i = 0; i < people.length; i++) {
+      const person = {
+        firstName: people[i].firstName,
+        lastName: people[i].lastName,
+        email: people[i].email,
+        password: people[i].password
+      }
+      vm.peoples.push(person)
     }
   },
   methods: {
@@ -97,6 +116,12 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    selectDemo (obj) {
+      const vm = this
+
+      vm.email = obj.email
+      vm.password = obj.password
     }
   }
 }

@@ -40,7 +40,7 @@ const userSchema = new Schema({
             ref: 'User'
         }
     ],
-    followers:  [
+    followers: [
         {
             type: Schema.Types.ObjectId,
             ref: 'User'
@@ -49,20 +49,22 @@ const userSchema = new Schema({
     backgroundImageUrl: {
         type: String
     },
-    profileImageUrl: {
-        type: String,
-        default: 'http://localhost:3000/images/user-images/default.png'
+    photoLg: {
+        type: String
+    },
+    photoSm: {
+        type: String
     },
     posts: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Post' 
+            ref: 'Post'
         }
     ],
     likes: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Post' 
+            ref: 'Post'
         }
     ]
 })

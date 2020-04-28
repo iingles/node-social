@@ -5,25 +5,11 @@
                 <v-col
                 class="d-flex flex-column justify-center align-center pt-10 pl-10 pr-10"
                 >
-                  <input
-                  type="file"
-                  ref="profileImage"
-                  style="display: none"
-                  accept="image/png, image/jpeg, image/jpg"
-                  name="profileImage"
-                  @change="updateProfile">
                   <v-img
-                  :src="user.profileImageUrl"
+                  :src="user.photoLg"
                   max-width=200
                   class="d-flex align-end justify-end"
                   >
-                  <v-btn
-                  icon
-                   @click="$refs.profileImage.click()"
-                  class="profile-action"
-                  v-if="this.$route.params.id === localStorage.userId"
-                  ><v-icon>mdi-camera</v-icon>
-                  </v-btn>
                   </v-img>
                   <h2>{{ user.firstName + ' ' + user.lastName }}</h2>
                   <v-btn
@@ -41,19 +27,6 @@
                     <v-icon>mdi-account-minus</v-icon>
                   </v-btn>
                 </v-col>
-                <input
-                type="file"
-                ref="backgroundImage"
-                style="display: none"
-                accept="image/png, image/jpeg, image/jpg"
-                >
-                <v-btn
-                 icon
-                 @click="$refs.backgroundImage.click()"
-                 class="profile-action"
-                 v-if="this.$route.params.id === localStorage.userId"
-                 ><v-icon>mdi-camera</v-icon>
-                 </v-btn>
             </v-row>
         </v-row>
         <v-row>
@@ -111,76 +84,48 @@ export default {
   },
   data: () => {
     return {
-      user: {
-        firstName: '',
-        lastName: '',
-        phone: '',
-        status: '',
-        bio: '',
-        backgroundImageUrl: '',
-        profileImageUrl: '',
-        followers: [],
-        following: [],
-        posts: []
-      },
+      user: {},
       selectedFile: null,
       localStorage
     }
   },
-  created () {
-    let vm = this
-
-    let userId = this.$route.params.id
-
-    fetch(`http://localhost:3000/user/profile/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${vm.token}`
-      }
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.fetchUserInfo()
     })
-      .then(res => {
-        return res.json()
-      })
-      .then(resData => {
-        if (resData.message === 'Not Authenticated') {
-          return resData.message
-        }
-        vm.user = resData
-      })
-      .catch(err => {
-        console.log(err)
-      })
+  },
+  watch: {
+    // Watch for route change and refresh the info each time
+    $route: 'getUserInfo'
   },
   methods: {
-    updateProfile (evt) {
-      let userId = this.$route.params.id
-      let url = `http://localhost:3000/user/profile/update/${userId}`
-      let method = 'PUT'
-      let vm = this
+    fetchUserInfo () {
+      // Fetch the user info for the profile page
 
-      vm.selectedFile = evt.target.files[0]
+      const vm = this
+      const userId = this.$route.params.id
+      const url = `http://localhost:3000/user/profile/${userId}`
+      const method = 'GET'
+      const headers = {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+      }
 
       fetch(url, {
-        method: method,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${vm.token}`
-        },
-        body: JSON.stringify({
-          firstName: vm.firstName,
-          lastName: vm.lastName,
-          phone: vm.phone,
-          status: vm.status,
-          bio: vm.bio,
-          backgroundImageUrl: vm.backgroundImageUrl,
-          profileImageUrl: vm.selectedFile
-        })
+        method,
+        headers
       })
-        .then(result => {
-          console.log(result)
+        .then(res => {
+          console.log(res)
+          return res.json()
         })
-        .catch(err => {
-          console.log(err)
+        .then(resData => {
+          if (resData.message === 'Not Authenticated') {
+            return resData.message
+          }
+          vm.user = resData
         })
+        .catch(e => e)
     },
     updateFollower (userId, opt) {
       const followerId = this.$route.params.id

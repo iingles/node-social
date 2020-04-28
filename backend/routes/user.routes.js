@@ -8,7 +8,7 @@ import { isAuth } from '../middleware/is-auth'
 import { getProfile, updateProfile, updateFollowings, getFollowings } from '../controllers/user.controllers'
 
 export const userRouter = Router()
-
+console.log('user')
 userRouter.get('/profile/:userId', isAuth, getProfile)
 
 userRouter.put('/profile/update/:userId', isAuth, updateProfile)

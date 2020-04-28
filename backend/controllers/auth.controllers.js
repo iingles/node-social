@@ -82,7 +82,7 @@ export const postLogin = (req, res, next) => {
                 email: loadedUser.email,
                 userId: loadedUser._id.toString()
              }, 
-             'somesupersecretstringcheckoutthedocsfordoingthisright',
+                process.env.ACCESS_TOKEN_SECRET,
             {
                 expiresIn: '1h'
             })

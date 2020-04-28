@@ -16,7 +16,7 @@ export const isAuth = (req, res, next) => {
     
     try {
         //Secret must be same secret used in assigning the token
-        decodedToken = jwt.verify(token, 'somesupersecretstringcheckoutthedocsfordoingthisright')
+        decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
     } catch (err) {
         err.statusCode = 500
         console.log(err)

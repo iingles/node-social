@@ -3,13 +3,13 @@
     Server for Node social media app
 */
 
-//Using ESM so we can use ES6
+// Using ESM so we can use ES6
 
-//Core Node modules
+// Core Node modules
 import path from 'path'
 import fs from 'fs'
 
-//NPM packages
+// NPM packages
 import express from 'express'
 import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
@@ -28,7 +28,10 @@ const morgan = require('morgan')
 
 //App Constants
 const app = express()
-const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-rxesh.mongodb.net/${process.env.MONGO_DEFAULT_DB}`
+
+require('dotenv').config()
+
+const MONGODB_URI = process.env.MONGODB_URI
 const PORT = process.env.PORT || 3000
 
 //For morgan -- logging to a file instead of the console
@@ -118,7 +121,7 @@ app.use((error, req, res, next) => {
 
 //Connect to Atlas/Mongo
 mongoose
-.connect(MONGODB_URI, {
+    .connect(MONGODB_URI, {
     useUnifiedTopology: true
 })
 .then(result =>{

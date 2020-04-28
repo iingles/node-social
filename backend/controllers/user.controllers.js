@@ -3,6 +3,8 @@ import { User } from '../models/User'
 export const getProfile = async (req, res, next) => {
     const userId = req.params.userId
     
+    console.log('getting profile...')
+
     User.findById(userId)
         .populate('posts')
         .then(user => { 
@@ -24,9 +26,11 @@ export const getProfile = async (req, res, next) => {
                 email: user.email,
                 status: user.status,
                 bio: user.bio,
+                backgroundImageUrl: user.backgroundImageUrl,
                 following: user.following,
                 followers: user.followers,
-                profileImageUrl: user.profileImageUrl,
+                photoSm: user.photoSm,
+                photoLg: user.photoLg,
                 posts: user.posts
             })
         })

@@ -2,6 +2,7 @@
     "env": {
         "MONGO_USER": "demoUser",
         "MONGO_PASSWORD":"Ud56ODrjoetECfUE",
-        "MONGO_DEFAULT_DB":"messages"
+        "MONGO_DEFAULT_DB":"messages",
+        "MONGODB_URI": "mongodb://demoUser:Ud56ODrjoetECfUE@206.189.215.72:27017/"
     }
 }

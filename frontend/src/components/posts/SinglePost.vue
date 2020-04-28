@@ -1,7 +1,9 @@
 <template>
     <div>
       <header class="post-header d-flex align-start">
-        <v-img :src="post.creator.profileImageUrl" max-width=50></v-img>
+        <v-avatar>
+          <img :src="post.creator.photoSm" max-width=50>
+        </v-avatar>
         <router-link class="post-creator" :to="`/profile/${post.creator._id}`">{{ post.creator.firstName }} {{ post.creator.lastName }}</router-link>
         <span class="time-date">{{ postTime }}&nbsp;{{ postDate }}</span>
       </header>
