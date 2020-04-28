@@ -44,9 +44,11 @@ export const savePost = (req, res, next) => {
     let creator 
 
     const post = new Post({
-        title: title,
         content: content,
-        creator: req.userId
+        creator: req.userId,
+        media: '',
+        likes: [],
+        replies: []
     })
 
     post
@@ -64,7 +66,7 @@ export const savePost = (req, res, next) => {
                 _id: req.userId, 
                 firstName: user.firstName, 
                 lastName: user.lastName,
-                profileImageUrl: user.profileImageUrl
+                photoSm: user.photoSm
             }
         } 
         })
@@ -113,7 +115,6 @@ export const getOnePost = async (req, res, next) => {
 
 export const updatePost = async (req, res, next) => {
     const postId = req.params.postId
-    const title = req.body.title
     const content = req.body.content
     
     try {
@@ -130,7 +131,6 @@ export const updatePost = async (req, res, next) => {
             throw error
         }
 
-        post.title = title
         post.content = content
         const result = await post.save()
 
