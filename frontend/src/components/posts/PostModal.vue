@@ -9,11 +9,9 @@
             <v-card-text>
               <v-form>
                 <template v-if="viewMode && !newPost && !editMode">
-                  <v-text-field disabled label="title" name="title" v-model="postData.title" ></v-text-field>
                   <v-textarea disabled label="content" name="content" v-model="postData.content"></v-textarea>
                 </template>
                 <template v-if="editMode && !viewMode || newPost">
-                  <v-text-field label="title" name="title" v-model="postData.title" ></v-text-field>
                   <v-textarea label="content" name="content" v-model="postData.content"></v-textarea>
                 </template>
               </v-form>
