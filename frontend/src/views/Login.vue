@@ -42,24 +42,24 @@
 </template>
 
 <script>
-import { people } from "../../data/people";
+import { people } from '../../data/people'
 
 export default {
   data: () => {
     return {
       hasErrors: false,
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       emailRules: [
         // v => /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/ || 'Please enter a valid email address.',
-        v => !!v || "email is required"
+        v => !!v || 'email is required'
       ],
-      passwordRules: [v => !!v || "Password is required"],
+      passwordRules: [v => !!v || 'Password is required'],
       peoples: []
-    };
+    }
   },
-  created() {
-    const vm = this;
+  created () {
+    const vm = this
 
     for (let i = 0; i < people.length; i++) {
       const person = {
@@ -67,21 +67,21 @@ export default {
         lastName: people[i].lastName,
         email: people[i].email,
         password: people[i].password
-      };
-      vm.peoples.push(person);
+      }
+      vm.peoples.push(person)
     }
   },
   methods: {
-    loginHandler() {
-      let vm = this;
+    loginHandler () {
+      let vm = this
 
-      event.preventDefault();
+      event.preventDefault()
       // Set the local login state to true here
 
-      fetch("http://http://206.189.215.72:3000//auth/login", {
-        method: "POST",
+      fetch('http://localhost:3000/auth/login', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json"
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           email: vm.email,
@@ -90,32 +90,32 @@ export default {
       })
         .then(res => {
           if (res.status === 422) {
-            throw new Error("Validation failed.");
+            throw new Error('Validation failed.')
           }
           if (res.status !== 200 && res.status !== 201) {
-            console.log("Error!");
-            throw new Error("Could not authenticate you!");
+            console.log('Error!')
+            throw new Error('Could not authenticate you!')
           }
-          return res.json();
+          return res.json()
         })
         .then(resData => {
-          localStorage.setItem("token", resData.token);
-          localStorage.setItem("userId", resData.userId);
+          localStorage.setItem('token', resData.token)
+          localStorage.setItem('userId', resData.userId)
           // If successful, redirect to feed
-          location.replace("/feed");
+          location.replace('/feed')
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
-    selectDemo(obj) {
-      const vm = this;
+    selectDemo (obj) {
+      const vm = this
 
-      vm.email = obj.email;
-      vm.password = obj.password;
+      vm.email = obj.email
+      vm.password = obj.password
     }
   }
-};
+}
 </script>
 
 <style scoped>

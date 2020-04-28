@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import SinglePost from "../components/posts/SinglePost";
+import SinglePost from '../components/posts/SinglePost'
 
 export default {
   components: {
@@ -81,56 +81,56 @@ export default {
       user: {},
       selectedFile: null,
       localStorage
-    };
+    }
   },
-  beforeRouteEnter(to, from, next) {
+  beforeRouteEnter (to, from, next) {
     next(vm => {
-      vm.fetchUserInfo();
-    });
+      vm.fetchUserInfo()
+    })
   },
   watch: {
     // Watch for route change and refresh the info each time
-    $route: "getUserInfo"
+    $route: 'getUserInfo'
   },
   methods: {
-    fetchUserInfo() {
+    fetchUserInfo () {
       // Fetch the user info for the profile page
 
-      const vm = this;
-      const userId = this.$route.params.id;
-      const url = `http://http://206.189.215.72:3000//user/profile/${userId}`;
-      const method = "GET";
+      const vm = this
+      const userId = this.$route.params.id
+      const url = `http://localhost:3000/user/profile/${userId}`
+      const method = 'GET'
       const headers = {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json"
-      };
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+      }
 
       fetch(url, {
         method,
         headers
       })
         .then(res => {
-          console.log(res);
-          return res.json();
+          console.log(res)
+          return res.json()
         })
         .then(resData => {
-          if (resData.message === "Not Authenticated") {
-            return resData.message;
+          if (resData.message === 'Not Authenticated') {
+            return resData.message
           }
-          vm.user = resData;
+          vm.user = resData
         })
-        .catch(e => e);
+        .catch(e => e)
     },
-    updateFollower(userId, opt) {
-      const followerId = this.$route.params.id;
-      const url = `http://http://206.189.215.72:3000//user/profile/updateFollowers`;
-      let vm = this;
-      let method = "PATCH";
+    updateFollower (userId, opt) {
+      const followerId = this.$route.params.id
+      const url = `http://localhost:3000/user/profile/updateFollowers`
+      let vm = this
+      let method = 'PATCH'
 
       fetch(url, {
         method: method,
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${vm.token}`
         },
         body: JSON.stringify({
@@ -140,14 +140,14 @@ export default {
         })
       })
         .then(res => {
-          return res.json();
+          return res.json()
         })
         .catch(err => {
-          console.log(`${err} failure`);
-        });
+          console.log(`${err} failure`)
+        })
     }
   }
-};
+}
 </script>
 
 <style scoped>

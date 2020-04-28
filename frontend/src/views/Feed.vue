@@ -79,9 +79,9 @@
 </template>
 
 <script>
-import PostModal from "../components/posts/PostModal";
-import SinglePost from "../components/posts/SinglePost";
-import openSocket from "socket.io-client";
+import PostModal from '../components/posts/PostModal'
+import SinglePost from '../components/posts/SinglePost'
+import openSocket from 'socket.io-client'
 
 export default {
   props: {
@@ -101,55 +101,55 @@ export default {
       viewMode: false,
       newPost: false,
       eventData: {}
-    };
+    }
   },
-  created() {
-    let vm = this;
-    let page = 1;
+  created () {
+    let vm = this
+    let page = 1
     // For now, grab all posts in database
-    fetch(`http://http://206.189.215.72:3000//feed/posts/?page=${page}`, {
+    fetch(`http://localhost:3000/feed/posts/?page=${page}`, {
       headers: {
         Authorization: `Bearer ${vm.token}`
       }
     })
       .then(res => {
-        return res.json();
+        return res.json()
       })
       .then(resData => {
-        if (resData.message === "Not Authenticated") {
-          return resData.message;
+        if (resData.message === 'Not Authenticated') {
+          return resData.message
         }
-        vm.posts = resData.posts;
+        vm.posts = resData.posts
       })
       .catch(err => {
-        console.log(err);
-      });
+        console.log(err)
+      })
     // Set up socket.io
-    const socket = openSocket("http://http://206.189.215.72:3000/");
-    socket.on("posts", data => {
-      if (data.action === "create") {
-        vm.posts.unshift(data.post);
+    const socket = openSocket('http://http://localhost:3000/')
+    socket.on('posts', data => {
+      if (data.action === 'create') {
+        vm.posts.unshift(data.post)
       }
-    });
+    })
   },
   methods: {
-    addPost(data) {
-      let vm = this;
-      const updatedPosts = [...vm.posts];
-      return { posts: updatedPosts };
+    addPost (data) {
+      let vm = this
+      const updatedPosts = [...vm.posts]
+      return { posts: updatedPosts }
     },
     // Save a post to the database
-    savePost(postData) {
-      let vm = this;
-      let url = "http://http://206.189.215.72:3000//feed/posts";
-      let method = "POST";
-      vm.singlePostModal = false;
-      vm.newPost = false;
+    savePost (postData) {
+      let vm = this
+      let url = 'http://http://localhost:3000//feed/posts'
+      let method = 'POST'
+      vm.singlePostModal = false
+      vm.newPost = false
 
       fetch(url, {
         method,
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${vm.token}`
         },
         body: JSON.stringify({
@@ -160,18 +160,18 @@ export default {
       })
         .then(res => {
           if (res.status !== 200 && res.status !== 201) {
-            throw new Error("Creating or Editing a post failed!");
+            throw new Error('Creating or Editing a post failed!')
           }
-          return res.json();
+          return res.json()
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     // View a single post
-    viewPost(postId) {
-      let vm = this;
-      let url = `http://http://206.189.215.72:3000//feed/post/${postId}`;
+    viewPost (postId) {
+      let vm = this
+      let url = `http://http://localhost:3000//feed/post/${postId}`
 
       fetch(url, {
         headers: {
@@ -179,27 +179,27 @@ export default {
         }
       })
         .then(res => {
-          return res.json();
+          return res.json()
         })
         .then(resData => {
-          vm.fetchedPostData = resData;
-          vm.singlePostModal = true;
-          vm.viewMode = true;
+          vm.fetchedPostData = resData
+          vm.singlePostModal = true
+          vm.viewMode = true
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
-    updatePost(postData) {
-      let url = `http://http://206.189.215.72:3000//feed/post/${postData._id}`;
-      let method = "PUT";
-      let vm = this;
-      vm.editMode = false;
+    updatePost (postData) {
+      let url = `http://http://localhost:3000//feed/post/${postData._id}`
+      let method = 'PUT'
+      let vm = this
+      vm.editMode = false
 
       fetch(url, {
         method: method,
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${vm.token}`
         },
         body: JSON.stringify({
@@ -209,29 +209,29 @@ export default {
         })
       })
         .then(res => {
-          return res.json();
+          return res.json()
         })
         .catch(err => {
-          console.log(err + "failure");
-        });
+          console.log(err + 'failure')
+        })
 
-      const socket = openSocket("http://http://206.189.215.72:3000/");
-      socket.on("posts", data => {
-        if (data.action === "update") {
+      const socket = openSocket('http://http://localhost:3000/')
+      socket.on('posts', data => {
+        if (data.action === 'update') {
           const updatedPostIndex = vm.posts.findIndex(
             p => p._id === postData._id
-          );
+          )
           if (updatedPostIndex > -1) {
-            vm.posts[updatedPostIndex].content = postData.content;
+            vm.posts[updatedPostIndex].content = postData.content
           }
         }
-      });
-      vm.singlePostModal = false;
+      })
+      vm.singlePostModal = false
     },
-    deletePost(postId) {
-      let vm = this;
-      let method = "DELETE";
-      let url = `http://http://206.189.215.72:3000//feed/post/${postId}`;
+    deletePost (postId) {
+      let vm = this
+      let method = 'DELETE'
+      let url = `http://http://localhost:3000//feed/post/${postId}`
 
       fetch(url, {
         method: method,
@@ -241,29 +241,29 @@ export default {
       })
         .then(res => {})
         .catch(err => {
-          console.log(err);
-        });
-      const socket = openSocket("http://http://206.189.215.72:3000/");
-      socket.on("posts", data => {
-        if (data.action === "delete") {
-          const updatedPostIndex = vm.posts.findIndex(p => p._id === postId);
+          console.log(err)
+        })
+      const socket = openSocket('http://http://localhost:3000/')
+      socket.on('posts', data => {
+        if (data.action === 'delete') {
+          const updatedPostIndex = vm.posts.findIndex(p => p._id === postId)
           if (updatedPostIndex > -1) {
-            vm.posts.splice(updatedPostIndex, 1);
+            vm.posts.splice(updatedPostIndex, 1)
           }
         }
-      });
+      })
     },
-    cancelModal() {
+    cancelModal () {
       // If the modal window is closed, reset everything
-      let vm = this;
-      vm.editMode = false;
-      vm.viewMode = false;
-      vm.newPost = false;
-      vm.fetchedPostData = {};
-      vm.singlePostModal = false;
+      let vm = this
+      vm.editMode = false
+      vm.viewMode = false
+      vm.newPost = false
+      vm.fetchedPostData = {}
+      vm.singlePostModal = false
     }
   }
-};
+}
 </script>
 
 <style scoped>

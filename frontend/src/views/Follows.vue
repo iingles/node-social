@@ -48,13 +48,13 @@ export default {
     return {
       followers: [],
       following: []
-    };
+    }
   },
-  created() {
-    let vm = this;
-    let userId = this.$route.params.id;
-    let url = `http://http://206.189.215.72:3000//user/getFollowings/${userId}`;
-    let method = "GET";
+  created () {
+    let vm = this
+    let userId = this.$route.params.id
+    let url = `http://localhost:3000/user/getFollowings/${userId}`
+    let method = 'GET'
 
     fetch(url, {
       method: method,
@@ -63,17 +63,17 @@ export default {
       }
     })
       .then(res => {
-        return res.json();
+        return res.json()
       })
       .then(resData => {
-        vm.followers = resData.followers;
-        vm.following = resData.following;
+        vm.followers = resData.followers
+        vm.following = resData.following
       })
       .catch(err => {
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
-};
+}
 </script>
 
 <style scoped>

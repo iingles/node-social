@@ -41,44 +41,44 @@ export default {
   data: () => {
     return {
       hasErrors: false,
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      rePass: "",
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      rePass: '',
       nameRules: [
-        v => !!v || "Name is required.",
-        v => v.length <= 16 || "Name cannot exceed 20 characters.",
+        v => !!v || 'Name is required.',
+        v => v.length <= 16 || 'Name cannot exceed 20 characters.',
         v =>
           /^[a-zA-Z\-_]*$/.test(v) ||
-          "Name can only contain letters, dashes, or underscores."
+          'Name can only contain letters, dashes, or underscores.'
       ],
       emailRules: [
         // v => /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/ || 'Please enter a valid email address.',
-        v => !!v || "email is required"
+        v => !!v || 'email is required'
       ],
       passwordRules: [
-        v => !!v || "Password is required",
+        v => !!v || 'Password is required',
         v =>
           !/[;,/"']/.test(v) ||
-          "Password cannot contain semicolons, commas, or quotes.",
+          'Password cannot contain semicolons, commas, or quotes.',
         v =>
           v.length >= 10 ||
-          "Password must be 10 or more characters and contain at least one number.",
-        v => /[0-9]/.test(v) || "Password must contain at least one number."
+          'Password must be 10 or more characters and contain at least one number.',
+        v => /[0-9]/.test(v) || 'Password must contain at least one number.'
       ]
-    };
+    }
   },
   methods: {
-    signUpHandler() {
-      event.preventDefault();
+    signUpHandler () {
+      event.preventDefault()
 
-      let vm = this;
+      let vm = this
 
-      fetch("http://http://206.189.215.72:3000//auth/signup", {
-        method: "PUT",
+      fetch('http://localhost:3000/auth/signup', {
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json"
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           email: vm.email,
@@ -90,15 +90,15 @@ export default {
         if (res.status === 422) {
           throw new Error(
             "Validation failed.  Make sure that email address isn't used yet!"
-          );
+          )
         } else {
           // if successful, redirect to login screen
-          this.$router.push("/login");
+          this.$router.push('/login')
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 
 <style scoped>
