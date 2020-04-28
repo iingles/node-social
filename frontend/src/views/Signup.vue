@@ -75,7 +75,7 @@ export default {
 
       let vm = this
 
-      fetch('http://localhost:3000/auth/signup', {
+      fetch('http://206.189.215.72:3000/auth/signup', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

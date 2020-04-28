@@ -98,7 +98,7 @@ export default {
 
       const vm = this
       const userId = this.$route.params.id
-      const url = `http://localhost:3000/user/profile/${userId}`
+      const url = `http://206.189.215.72:3000/user/profile/${userId}`
       const method = 'GET'
       const headers = {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -123,7 +123,7 @@ export default {
     },
     updateFollower (userId, opt) {
       const followerId = this.$route.params.id
-      const url = `http://localhost:3000/user/profile/updateFollowers`
+      const url = `http://206.189.215.72:3000/user/profile/updateFollowers`
       let vm = this
       let method = 'PATCH'
 

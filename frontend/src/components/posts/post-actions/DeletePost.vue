@@ -18,7 +18,7 @@ export default {
     deletePost (postId) {
       let vm = this
       let method = 'DELETE'
-      let url = `http://localhost:3000/feed/post/${postId}`
+      let url = `http://206.189.215.72:3000/feed/post/${postId}`
 
       fetch(url, {
         method: method,
@@ -30,7 +30,7 @@ export default {
         .catch(err => {
           console.log(err)
         })
-      const socket = openSocket('http:/localhost:3000/')
+      const socket = openSocket('http:/206.189.215.72:3000/')
       socket.on('posts', data => {
         if (data.action === 'delete') {
           const updatedPostIndex = vm.posts.findIndex(p => p._id === postId)

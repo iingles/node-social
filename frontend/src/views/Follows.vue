@@ -53,7 +53,7 @@ export default {
   created () {
     let vm = this
     let userId = this.$route.params.id
-    let url = `http://localhost:3000/user/getFollowings/${userId}`
+    let url = `http://206.189.215.72:3000/user/getFollowings/${userId}`
     let method = 'GET'
 
     fetch(url, {

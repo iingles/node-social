@@ -78,7 +78,7 @@ export default {
       event.preventDefault()
       // Set the local login state to true here
 
-      fetch('http://localhost:3000/auth/login', {
+      fetch('http://206.189.215.72:3000/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
